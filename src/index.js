@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import { Route, BrowserRouter as Router, Switch } from 'react-router-dom';
 
 import Notfound from './components/notfound';
-import Wrapper from './components/Wrapper';
+import AmsWrapper from './components/AmsWrapper';
 import * as serviceWorker from './serviceWorker';
 
 import './index.css';
@@ -11,8 +11,10 @@ import './index.css';
 const routing = (
     <Router>
         <Switch>
-            <Route exact path="/" component={Wrapper} />
-            <Route path="/stores" component={Wrapper} />
+            <Route exact path="/" component={AmsWrapper} />
+            <Route path="/locale_church" component={AmsWrapper} />
+            <Route path="/calendar" component={AmsWrapper} />
+            <Route path="/reports" component={AmsWrapper} />
             <Route component={Notfound} />
         </Switch>
     </Router>
