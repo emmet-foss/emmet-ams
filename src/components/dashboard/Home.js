@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import {
+  Button,
+  Col,
+  Icon,
   PageHeader,
+  Select,
   Statistic,
   Row,
-  Col,
-  Select,
 } from 'antd';
 
 import emmetAPI from '../../emmetAPI';
@@ -41,9 +44,11 @@ class Home extends Component {
     return body;
   };
 
-  handleLocaleSelect = async (localeId) => {
+  handleLocaleSelect = async (localeValue, localeObj) => {
+    console.log(localeValue, localeObj.key)
     this.setState({
-      selectedLocale: localeId,
+      selectedLocale: localeValue,
+      selectedLocaleKey: localeObj.key,
     });
 
   };
@@ -52,6 +57,7 @@ class Home extends Component {
     const {
       churchLocales,
       selectedLocale,
+      selectedLocaleKey,
     } = this.state;
     return (
       <PageHeader
@@ -74,6 +80,11 @@ class Home extends Component {
                     return <Option key={locale._id} value={locale.name}>{locale.name}</Option>
                   })}
                 </Select>
+                <Link to={`/locale_church/${selectedLocaleKey}`}>
+                  <Button type="primary">
+                    <Icon type="shopping-cart"/>Checkout
+                  </Button>
+                </Link>
               </Col>
             </Row>
           </div>
