@@ -82,7 +82,7 @@ class Home extends Component {
                 </Select>
                 <Link to={`/locale_church/${selectedLocaleKey}`}>
                   <Button type="primary">
-                    <Icon type="shopping-cart"/>Checkout
+                    <Icon type="next"/>Next
                   </Button>
                 </Link>
               </Col>
