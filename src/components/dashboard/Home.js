@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import {
   Button,
   Col,
@@ -80,11 +80,11 @@ class Home extends Component {
                     return <Option key={locale._id} value={locale.name}>{locale.name}</Option>
                   })}
                 </Select>
-                <Link to={`/locale_church/${selectedLocaleKey}`}>
+                <NavLink to={`/locale_church/${selectedLocaleKey}/calendar`}>
                   <Button type="primary">
                     <Icon type="next"/>Next
                   </Button>
-                </Link>
+                </NavLink>
               </Col>
             </Row>
           </div>
