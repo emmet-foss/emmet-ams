@@ -26,7 +26,7 @@ class AttendanceCalendar extends Component {
 
   goToAttendanceDate = async (attendanceDate) => {
     const localeId = this.props.location.pathname.split('/')[2];
-    this.props.history.push(`/locale_church/${localeId}/orders?attendanceDate=${attendanceDate.format("YYYY-MM-DD")}`)
+    this.props.history.push(`/locale_church/${localeId}/attendance?attendanceDate=${attendanceDate.format("YYYY-MM-DD")}`)
   };
 
   render() {

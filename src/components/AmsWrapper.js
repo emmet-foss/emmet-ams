@@ -4,8 +4,9 @@ import { Route, NavLink } from 'react-router-dom';
 import { withRouter } from "react-router";
 import { Button, Icon, Layout, Tabs, Menu } from 'antd';
 
-import { KitchenStores, AttendanceCalendar } from './list';
 import { Home } from './dashboard';
+import { AttendanceCalendar } from './list';
+import { AttendanceForm } from './form';
 
 import 'antd/dist/antd.css';
 import './Wrapper.css';
@@ -33,6 +34,7 @@ class AmsWrapper extends Component {
               <Route exact path="/" component={Home} />
               <Route exact path="/calendar" component={AttendanceCalendar} />
               <Route exact path="/locale_church/:localeId/calendar" component={AttendanceCalendar} />
+              <Route exact path="/locale_church/:localeId/attendance" component={AttendanceForm} />
             </div>
           </Content>
           <Footer style={{ position: "sticky", bottom: "0" }}>
