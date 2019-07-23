@@ -69,7 +69,7 @@ class KitchenStores extends Component {
                     <List.Item.Meta
                       avatar={<Avatar src={store.name} />}
                       title={
-                        <Link to={`/stores/${store._id}/orders`}>
+                        <Link to={`/stores/${store._id}/calendar`}>
                           {store.name}
                         </Link>
                       }
