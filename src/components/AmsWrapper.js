@@ -26,9 +26,6 @@ class AmsWrapper extends Component {
   render() {
     // TODO: Get locale id if already inputted before
     let localeId = localStorage.getItem('localeId');
-    if (!localeId) {
-      localeId = "5d327398be03f20565db4bff";
-    }
     return (
       <Layout style={{ minHeight: '100vh' }}>
         <Layout>
@@ -51,7 +48,8 @@ class AmsWrapper extends Component {
                   <Icon type="home" />
                 </NavLink>
               </Menu.Item>
-              <Menu.Item key={`/locale_church/${localeId}/calendar`}>
+              <Menu.Item key={`/locale_church/${localeId}/calendar`}
+                disabled={!localeId}>
                 <NavLink to={`/locale_church/${localeId}/calendar`}>
                   <Icon type="calendar" />
                 </NavLink>
