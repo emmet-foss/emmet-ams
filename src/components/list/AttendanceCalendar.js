@@ -24,6 +24,12 @@ class AttendanceCalendar extends Component {
     history: PropTypes.object.isRequired
   };
 
+  componentDidMount() {
+    const localeId = this.props.location.pathname.split('/')[2];
+    console.log('localeId', localeId)
+    localStorage.setItem('localeId', localeId);
+  }
+
   goToAttendanceDate = async (attendanceDate) => {
     const localeId = this.props.location.pathname.split('/')[2];
     this.props.history.push(`/locale_church/${localeId}/attendance?attendanceDate=${attendanceDate.format("YYYY-MM-DD")}`)

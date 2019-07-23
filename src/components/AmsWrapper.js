@@ -25,7 +25,10 @@ class AmsWrapper extends Component {
 
   render() {
     // TODO: Get locale id if already inputted before
-    const localeId = "5d327398be03f20565db4bff";
+    let localeId = localStorage.getItem('localeId');
+    if (!localeId) {
+      localeId = "5d327398be03f20565db4bff";
+    }
     return (
       <Layout style={{ minHeight: '100vh' }}>
         <Layout>

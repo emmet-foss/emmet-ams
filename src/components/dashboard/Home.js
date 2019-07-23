@@ -25,14 +25,26 @@ class Home extends Component {
 
   componentDidMount() {
     this.getChurchLocales()
-      .then(res => this.setState({ churchLocales: res.locales }))
-      .catch(err => console.log(err));
+      .then(res => {
+        this.setState({ churchLocales: res.locales })
+        let storedLocaleId = localStorage.getItem('localeId');
+        if (storedLocaleId) {
+          this.setState({ selectedLocale: storedLocaleId })
+        }
+      })
+      .catch(err => console.log(err));  
   }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.location !== this.props.location) {
       this.getChurchLocales()
-      .then(res => this.setState({ stores: res.stores }))
+      .then(res => {
+        this.setState({ churchLocales: res.locales })
+        let storedLocaleId = localStorage.getItem('localeId');
+        if (storedLocaleId) {
+          this.setState({ selectedLocale: storedLocaleId })
+        }
+      })
       .catch(err => console.log(err));
     }
   }
@@ -44,13 +56,10 @@ class Home extends Component {
     return body;
   };
 
-  handleLocaleSelect = async (localeValue, localeObj) => {
-    console.log(localeValue, localeObj.key)
+  handleLocaleSelect = async (localeValue) => {
     this.setState({
-      selectedLocale: localeValue,
-      selectedLocaleKey: localeObj.key,
+      selectedLocale: localeValue
     });
-
   };
 
   render() {
@@ -77,10 +86,10 @@ class Home extends Component {
                   value={selectedLocale}
                 >
                   {churchLocales && churchLocales.map(locale => {
-                    return <Option key={locale._id} value={locale.name}>{locale.name}</Option>
+                    return <Option key={locale._id} value={locale._id}>{locale.name}</Option>
                   })}
                 </Select>
-                <NavLink to={`/locale_church/${selectedLocaleKey}/calendar`}>
+                <NavLink to={`/locale_church/${selectedLocale}/calendar`}>
                   <Button type="primary">
                     <Icon type="next"/>Next
                   </Button>
