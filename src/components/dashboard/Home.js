@@ -89,9 +89,13 @@ class Home extends Component {
                     return <Option key={locale._id} value={locale._id}>{locale.name}</Option>
                   })}
                 </Select>
+              </Col>
+            </Row>
+            <Row type="flex" justify="center">
+              <Col xs={24} sm={24} md={24} lg={12}>
                 <NavLink to={`/locale_church/${selectedLocale}/calendar`}>
-                  <Button type="primary">
-                    <Icon type="next"/>Next
+                  <Button block type="primary">
+                    Next<Icon type="right"/>
                   </Button>
                 </NavLink>
               </Col>

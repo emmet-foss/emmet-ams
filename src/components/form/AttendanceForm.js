@@ -46,8 +46,7 @@ class AttendanceForm extends Component {
   }
 
   getMembers = async () => {
-    let localeId = localStorage.getItem('localeId');
-    if (!localeId) localeId = "5d327398be03f20565db4bff"
+    const localeId = this.props.location.pathname.split('/')[2];
     const response = await emmetAPI.getUrl(`/ams/locale_churches/${localeId}/members`);
     const body = await response.json();
     if (response.status !== 200) throw Error(body.message);

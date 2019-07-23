@@ -26,7 +26,6 @@ class AttendanceCalendar extends Component {
 
   componentDidMount() {
     const localeId = this.props.location.pathname.split('/')[2];
-    console.log('localeId', localeId)
     localStorage.setItem('localeId', localeId);
   }
 
