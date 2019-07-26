@@ -7,6 +7,7 @@ import {
   Col,
   Checkbox,
   List,
+  message,
   Row,
   Statistic,
 } from 'antd';
@@ -56,22 +57,21 @@ class AttendanceForm extends Component {
 
   handleConfirmAttendance = async () => {
     console.log('checkedMembers', this.state.checkedMembers)
-    /*
-    const guest_id = localStorage.getItem('guest_id');
-    emmetAPI.fetchUrl(`/ams/checkout/${guest_id}`, {
+    const localeId = this.props.location.pathname.split('/')[2];
+    emmetAPI.fetchUrl(`/ams/attendance/${localeId}`, {
       method: 'POST',
       credentials: 'include',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        name: "guest"
+        members: this.state.checkedMembers
       }),
     })
     .then(res => {
       console.log('res', res)
       if (res.status === 200) {
-        message.success('Items successfully checked out. Please wait for your orders to be handed over to you on your visit.');
+        message.success('Attendance successfully submitted.');
         this.setState({ members: [] })
         console.log('res', res)
       } else {
@@ -81,9 +81,8 @@ class AttendanceForm extends Component {
     })
     .catch(err => {
       console.error(err);
-      alert('Error checking out.');
+      message.error('Error submitting attendance.');
     });
-    */
   };
 
   setMember = (e) => {
