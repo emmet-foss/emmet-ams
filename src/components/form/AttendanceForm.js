@@ -5,8 +5,8 @@ import {
   Avatar,
   Button,
   Col,
+  Checkbox,
   List,
-  message,
   Row,
   Statistic,
 } from 'antd';
@@ -25,6 +25,7 @@ class AttendanceForm extends Component {
 
   state = {
     members: [],
+    checkedMembers: [],
     name: '',
     location: '',
     responseToPost: '',
@@ -54,6 +55,8 @@ class AttendanceForm extends Component {
   };
 
   handleConfirmAttendance = async () => {
+    console.log('checkedMembers', this.state.checkedMembers)
+    /*
     const guest_id = localStorage.getItem('guest_id');
     emmetAPI.fetchUrl(`/ams/checkout/${guest_id}`, {
       method: 'POST',
@@ -80,14 +83,30 @@ class AttendanceForm extends Component {
       console.error(err);
       alert('Error checking out.');
     });
+    */
   };
+
+  setMember = (e) => {
+    const { checkedMembers } = this.state;
+    const { memberId, checked } = e.target;
+
+    if (checked) {
+      checkedMembers.push(memberId);
+      this.setState({ checkedMembers });
+    } else {
+      var filtered = checkedMembers.filter(function(value, index, arr){
+        return value !== memberId;
+      });
+      this.setState({ checkedMembers: filtered });
+    }
+  }
 
   render() {
     const { members } = this.state;
     return (
       <div className="wrap">
         <div className="extraContent">
-          <Row>
+          <Row type="flex" justify="center">
             <Col xs={24} sm={24} md={24} lg={12}>
               {(members && members.length === 0) ?
                 <Statistic value="No members available in this locale." />
@@ -107,20 +126,19 @@ class AttendanceForm extends Component {
                           avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />}
                           title={item.name}
                         />
-                        {item.name}
+                        <Checkbox memberId={item._id} onChange={this.setMember}/>
                       </List.Item>
                     )}
                   />
-                  <div>
-                    <Button
-                      type="primary"
-                      onClick={this.handleConfirmAttendance}
-                    >
-                      Confirm checkout
-                    </Button>
-                  </div>
                 </div>
               }
+              <Button
+                block
+                type="primary"
+                onClick={this.handleConfirmAttendance}
+              >
+                Submit
+              </Button>
             </Col>
           </Row>
         </div>

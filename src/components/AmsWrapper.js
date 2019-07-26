@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from "prop-types";
 import { Route, NavLink } from 'react-router-dom';
 import { withRouter } from "react-router";
-import { Button, Icon, Layout, Tabs, Menu } from 'antd';
+import { Icon, Layout, Menu } from 'antd';
 
 import { Home } from './dashboard';
 import { AttendanceCalendar } from './list';
@@ -12,9 +12,8 @@ import 'antd/dist/antd.css';
 import './Wrapper.css';
 
 const {
-  Header, Content, Footer
+  Content, Footer
 } = Layout;
-const { TabPane } = Tabs;
 
 class AmsWrapper extends Component {
   static propTypes = {
