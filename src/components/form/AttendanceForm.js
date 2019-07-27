@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from "prop-types";
 import { withRouter } from "react-router";
+import * as qs from 'query-string';
 import {
   Avatar,
   Button,
@@ -56,24 +57,23 @@ class AttendanceForm extends Component {
   };
 
   handleConfirmAttendance = async () => {
-    console.log('checkedMembers', this.state.checkedMembers)
     const localeId = this.props.location.pathname.split('/')[2];
-    emmetAPI.fetchUrl(`/ams/attendance/${localeId}`, {
+    const query = qs.parse(this.props.location.search);
+    const attendanceDate = query.attendanceDate;
+    emmetAPI.fetchUrl(`/ams/attendance/${localeId}?attendanceDate=${attendanceDate}`, {
       method: 'POST',
       credentials: 'include',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        members: this.state.checkedMembers
+        memberIds: this.state.checkedMembers
       }),
     })
     .then(res => {
       console.log('res', res)
       if (res.status === 200) {
         message.success('Attendance successfully submitted.');
-        this.setState({ members: [] })
-        console.log('res', res)
       } else {
         const error = new Error(res.error);
         throw error;
