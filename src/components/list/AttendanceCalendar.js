@@ -2,17 +2,11 @@ import React, { Component } from 'react';
 import PropTypes from "prop-types";
 import { withRouter } from "react-router";
 import {
-  Avatar,
-  Button,
   Calendar,
   Col,
-  List,
-  message,
   Row,
   Statistic,
 } from 'antd';
-
-import emmetAPI from '../../emmetAPI';
 
 import 'antd/dist/antd.css';
 import './List.css';

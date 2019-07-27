@@ -5,7 +5,6 @@ import { withRouter } from "react-router";
 import {
   Avatar,
   Col,
-  Icon,
   List,
   Row,
   Statistic,

@@ -66,7 +66,6 @@ class Home extends Component {
     const {
       churchLocales,
       selectedLocale,
-      selectedLocaleKey,
     } = this.state;
     return (
       <PageHeader
