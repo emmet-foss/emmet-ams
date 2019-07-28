@@ -22,6 +22,8 @@ class ReportsHome extends Component {
   state = {
     stores: [],
     availableDates: [],
+    selectedLocale: '',
+    selectedReport: '',
   };
 
   componentDidMount() {
@@ -63,6 +65,12 @@ class ReportsHome extends Component {
     });
   };
 
+  handleReportSelect = async (reportValue) => {
+    this.setState({
+      selectedReport: reportValue
+    });
+  };
+
   render() {
 
     const formItemLayout = {
@@ -79,7 +87,9 @@ class ReportsHome extends Component {
     const {
       churchLocales,
       selectedLocale,
+      selectedReport,
     } = this.state;
+
     return (
       <PageHeader>
         <div className="wrap">
@@ -116,6 +126,7 @@ class ReportsHome extends Component {
                         showSearch
                         placeholder="Select a report"
                         dropdownMatchSelectWidth={false}
+                        onChange={this.handleReportSelect}
                       >
                         <Option value="weekly">Weekly</Option>
                         <Option value="monthly">Monthly</Option>
@@ -127,7 +138,7 @@ class ReportsHome extends Component {
             </Row>
             <Row type="flex" justify="center">
               <Col xs={24} sm={24} md={24} lg={12}>
-                <NavLink to={`/reports/${selectedLocale}/calendar`}>
+                <NavLink to={`/reports/${selectedLocale}?reportType=${selectedReport}`}>
                   <Button block type="primary">
                     Next<Icon type="right"/>
                   </Button>

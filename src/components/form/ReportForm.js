@@ -56,7 +56,7 @@ class ReportForm extends Component {
     return body;
   };
 
-  handleConfirmAttendance = async () => {
+  goToReportsPage = async () => {
     const localeId = this.props.location.pathname.split('/')[2];
     const query = qs.parse(this.props.location.search);
     const attendanceDate = query.attendanceDate;
@@ -134,7 +134,7 @@ class ReportForm extends Component {
               <Button
                 block
                 type="primary"
-                onClick={this.handleConfirmAttendance}
+                onClick={this.goToReportsPage}
               >
                 Submit
               </Button>
