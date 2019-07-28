@@ -3,6 +3,7 @@ import { NavLink } from 'react-router-dom';
 import {
   Button,
   Col,
+  Form,
   Icon,
   PageHeader,
   Select,
@@ -17,7 +18,7 @@ import './Home.css';
 
 const Option = Select.Option;
 
-class Home extends Component {
+class ReportsHome extends Component {
   state = {
     stores: [],
     availableDates: [],
@@ -63,6 +64,18 @@ class Home extends Component {
   };
 
   render() {
+
+    const formItemLayout = {
+      labelCol: {
+        xs: { span: 24 },
+        sm: { span: 4 },
+      },
+      wrapperCol: {
+        xs: { span: 24 },
+        sm: { span: 20 },
+      },
+    };
+
     const {
       churchLocales,
       selectedLocale,
@@ -73,29 +86,48 @@ class Home extends Component {
           <div className="extraContent">
             <Row type="flex" justify="center">
               <Col xs={24} sm={24} md={24} lg={12}>
-                <div>Welcome to Emmet AMS!</div>
+                <Statistic value="Please select the report you would like to generate." />
               </Col>
             </Row>
             <Row type="flex" justify="center">
               <Col xs={24} sm={24} md={24} lg={12}>
-                <Statistic value="From what locale are you?" />
-                <Select
-                  showSearch
-                  style={{ width: '100%' }}
-                  placeholder="Select a locale"
-                  dropdownMatchSelectWidth={false}
-                  onChange={this.handleLocaleSelect}
-                  value={selectedLocale}
-                >
-                  {churchLocales && churchLocales.map(locale => {
-                    return <Option key={locale._id} value={locale._id}>{locale.name}</Option>
-                  })}
-                </Select>
+                <Form {...formItemLayout}>
+                  <Form.Item label="Locale">
+                    <Select
+                        showSearch
+                        placeholder="Select a locale"
+                        dropdownMatchSelectWidth={false}
+                        onChange={this.handleLocaleSelect}
+                        value={selectedLocale}
+                      >
+                        {churchLocales && churchLocales.map(locale => {
+                          return <Option key={locale._id} value={locale._id}>{locale.name}</Option>
+                        })}
+                    </Select>
+                  </Form.Item>
+                </Form>
               </Col>
             </Row>
             <Row type="flex" justify="center">
               <Col xs={24} sm={24} md={24} lg={12}>
-                <NavLink to={`/locale_church/${selectedLocale}/calendar`}>
+                <Form {...formItemLayout}>
+                  <Form.Item label="Report">
+                    <Select
+                        showSearch
+                        placeholder="Select a report"
+                        dropdownMatchSelectWidth={false}
+                      >
+                        <Option value="weekly">Weekly</Option>
+                        <Option value="monthly">Monthly</Option>
+                        <Option value="custom">Custom</Option>
+                    </Select>
+                  </Form.Item>
+                </Form>
+              </Col>
+            </Row>
+            <Row type="flex" justify="center">
+              <Col xs={24} sm={24} md={24} lg={12}>
+                <NavLink to={`/reports/${selectedLocale}/calendar`}>
                   <Button block type="primary">
                     Next<Icon type="right"/>
                   </Button>
@@ -110,4 +142,4 @@ class Home extends Component {
   }
 }
 
-export default Home;
+export default ReportsHome;

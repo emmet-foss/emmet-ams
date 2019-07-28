@@ -4,7 +4,7 @@ import { Route, NavLink } from 'react-router-dom';
 import { withRouter } from "react-router";
 import { Icon, Layout, Menu } from 'antd';
 
-import { Home } from './dashboard';
+import { Home, ReportsHome } from './dashboard';
 import { AttendanceCalendar } from './list';
 import { AttendanceForm } from './form';
 
@@ -31,9 +31,11 @@ class AmsWrapper extends Component {
           <Content style={{ margin: '24px 16px 0' }}>
             <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
               <Route exact path="/" component={Home} />
+              <Route exact path="/reports" component={ReportsHome} />
               <Route exact path="/calendar" component={AttendanceCalendar} />
               <Route exact path="/locale_church/:localeId/calendar" component={AttendanceCalendar} />
               <Route exact path="/locale_church/:localeId/attendance" component={AttendanceForm} />
+              <Route exact path="/reports/:localeId" component={AttendanceForm} />
             </div>
           </Content>
           <Footer style={{ position: "sticky", bottom: "0" }}>
@@ -53,8 +55,8 @@ class AmsWrapper extends Component {
                   <Icon type="calendar" />
                 </NavLink>
               </Menu.Item>
-              <Menu.Item key="/report">
-                <NavLink to="/report">
+              <Menu.Item key="/reports">
+                <NavLink to="/reports">
                   <Icon type="audit" />
                 </NavLink>
               </Menu.Item>
