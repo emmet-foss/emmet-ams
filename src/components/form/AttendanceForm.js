@@ -32,6 +32,7 @@ class AttendanceForm extends Component {
     location: '',
     responseToPost: '',
     collapsed: false,
+    loading: false,
   };
 
   componentDidMount() {
@@ -57,6 +58,7 @@ class AttendanceForm extends Component {
   };
 
   handleConfirmAttendance = async () => {
+    this.setState({ loading: true })
     const localeId = this.props.location.pathname.split('/')[2];
     const query = qs.parse(this.props.location.search);
     const attendanceDate = query.attendanceDate;
@@ -71,7 +73,7 @@ class AttendanceForm extends Component {
       }),
     })
     .then(res => {
-      console.log('res', res)
+      this.setState({ loading: false })
       if (res.status === 200) {
         message.success('Attendance successfully submitted.');
       } else {
@@ -134,6 +136,7 @@ class AttendanceForm extends Component {
               <Button
                 block
                 type="primary"
+                loading={this.state.loading}
                 onClick={this.handleConfirmAttendance}
               >
                 Submit

@@ -6,7 +6,7 @@ import { Icon, Layout, Menu } from 'antd';
 
 import { Home, ReportsHome } from './dashboard';
 import { AttendanceCalendar } from './list';
-import { AttendanceForm } from './form';
+import { AttendanceForm, ReportForm } from './form';
 
 import 'antd/dist/antd.css';
 import './Wrapper.css';
@@ -35,7 +35,7 @@ class AmsWrapper extends Component {
               <Route exact path="/calendar" component={AttendanceCalendar} />
               <Route exact path="/locale_church/:localeId/calendar" component={AttendanceCalendar} />
               <Route exact path="/locale_church/:localeId/attendance" component={AttendanceForm} />
-              <Route exact path="/reports/:localeId" component={AttendanceForm} />
+              <Route exact path="/reports/:localeId" component={ReportForm} />
             </div>
           </Content>
           <Footer style={{ position: "sticky", bottom: "0" }}>
