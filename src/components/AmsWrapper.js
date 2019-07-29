@@ -27,7 +27,8 @@ class AmsWrapper extends Component {
 		this.state = {
       checkedMembers: [],
     };
-		this.setMember = this.setMember.bind(this);
+    this.setMember = this.setMember.bind(this);
+    this.clearMembers = this.clearMembers.bind(this);
 	}
 
   setMember = (e) => {
@@ -45,6 +46,11 @@ class AmsWrapper extends Component {
     }
   }
 
+  clearMembers = () => {
+    console.log('clear members')
+    this.setState({ checkedMembers: [] });
+  }
+
   render() {
     let localeId = localStorage.getItem('localeId');
     return (
@@ -57,13 +63,20 @@ class AmsWrapper extends Component {
               <Route exact path="/calendar" component={AttendanceCalendar} />
               <Route exact path="/locale_church/:localeId/calendar" component={AttendanceCalendar} />
               <Route exact path="/locale_church/:localeId/attendance"
-                render={
-                  (props) => <AttendanceForm {...props} setMember={this.setMember} />
+                render={(props) =>
+                  <AttendanceForm
+                    {...props}
+                    setMember={this.setMember} 
+                    checkedMembers={this.state.checkedMembers}
+                    clearMembers={this.clearMembers}
+                  />
                 }
               />
               <Route exact path="/locale_church/:localeId/confirm_attendance"
-                render={
-                  (props) => <AttendanceConfirm {...props} checkedMembers={this.state.checkedMembers} />
+                render={(props) => 
+                  <AttendanceConfirm {...props}
+                    checkedMembers={this.state.checkedMembers} 
+                  />
                 }
               />
               <Route exact path="/reports/:localeId" component={ReportForm} />
