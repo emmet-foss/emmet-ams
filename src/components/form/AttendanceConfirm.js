@@ -6,9 +6,8 @@ import {
   Avatar,
   Button,
   Col,
-  Checkbox,
-  Icon,
   List,
+  message,
   Row,
   Statistic,
 } from 'antd';
@@ -28,53 +27,49 @@ class AttendanceForm extends Component {
   constructor(props) {
 		super(props);
 		this.state = {
-      members: [],
-      checkedMembers: [],
-      name: '',
-      location: '',
-      responseToPost: '',
-      collapsed: false,
       loading: false,
     };
 	}
 
-  componentDidMount() {
-    this.getMembers()
-      .then(res => this.setState({ members: res.members }))
-      .catch(err => console.log(err));
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.location !== this.props.location) {
-      this.getMembers()
-        .then(res => this.setState({ members: res.members }))
-        .catch(err => console.log(err));
-    }
-  }
-
-  getMembers = async () => {
-    const localeId = this.props.location.pathname.split('/')[2];
-    const response = await emmetAPI.getUrl(`/ams/locale_churches/${localeId}/members`);
-    const body = await response.json();
-    if (response.status !== 200) throw Error(body.message);
-    return body;
-  };
-
   handleConfirmAttendance = async () => {
+    this.setState({ loading: true })
     const localeId = this.props.location.pathname.split('/')[2];
     const query = qs.parse(this.props.location.search);
     const attendanceDate = query.attendanceDate;
-    this.props.history.push(`/locale_church/${localeId}/confirm_attendance?attendanceDate=${attendanceDate}`)
+    const memberIds = this.props.checkedMembers.map(item => item.memberId)
+    emmetAPI.fetchUrl(`/ams/attendance/${localeId}?attendanceDate=${attendanceDate}`, {
+      method: 'POST',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        memberIds: memberIds
+      }),
+    })
+    .then(res => {
+      this.setState({ loading: false })
+      if (res.status === 200) {
+        message.success('Attendance successfully submitted.');
+      } else {
+        const error = new Error(res.error);
+        throw error;
+      }
+    })
+    .catch(err => {
+      console.error(err);
+      message.error('Error submitting attendance.');
+    });
   };
 
   render() {
-    const { members } = this.state;
+    const { checkedMembers } = this.props;
     return (
       <div className="wrap">
         <div className="extraContent">
           <Row type="flex" justify="center">
             <Col xs={24} sm={24} md={24} lg={12}>
-              {(members && members.length === 0) ?
+              {(checkedMembers && checkedMembers.length === 0) ?
                 <Statistic value="No members available in this locale." />
               :
                 <div>
@@ -83,23 +78,27 @@ class AttendanceForm extends Component {
                     itemLayout="horizontal"
                     bordered
                     size="large"
-                    dataSource={members}
+                    dataSource={checkedMembers}
                     renderItem={item => (
                       <List.Item
-                        key={item._id}
+                        key={item.memberId}
                       >
                         <List.Item.Meta
                           avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />}
-                          title={item.name}
+                          title={item.memberName}
                         />
-                        <Checkbox memberId={item._id} memberName={item.name} onChange={this.props.setMember}/>
                       </List.Item>
                     )}
                   />
                 </div>
               }
-              <Button block type="primary" onClick={this.handleConfirmAttendance}>
-                Confirm<Icon type="right"/>
+              <Button
+                block
+                type="primary"
+                loading={this.state.loading}
+                onClick={this.handleConfirmAttendance}
+              >
+                Submit
               </Button>
             </Col>
           </Row>

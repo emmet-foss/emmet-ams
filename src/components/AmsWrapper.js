@@ -6,7 +6,7 @@ import { Icon, Layout, Menu } from 'antd';
 
 import { Home, ReportsHome } from './dashboard';
 import { AttendanceCalendar } from './list';
-import { AttendanceForm, ReportForm } from './form';
+import { AttendanceForm, AttendanceConfirm, ReportForm } from './form';
 
 import 'antd/dist/antd.css';
 import './Wrapper.css';
@@ -22,8 +22,30 @@ class AmsWrapper extends Component {
     history: PropTypes.object.isRequired
   };
 
+  constructor() {
+		super();
+		this.state = {
+      checkedMembers: [],
+    };
+		this.setMember = this.setMember.bind(this);
+	}
+
+  setMember = (e) => {
+    const { checkedMembers } = this.state;
+    const { memberId, memberName, checked } = e.target;
+
+    if (checked) {
+      checkedMembers.push({ memberId, memberName });
+      this.setState({ checkedMembers });
+    } else {
+      var filtered = checkedMembers.filter(function(value, index, arr){
+        return value.memberId !== memberId;
+      });
+      this.setState({ checkedMembers: filtered });
+    }
+  }
+
   render() {
-    // TODO: Get locale id if already inputted before
     let localeId = localStorage.getItem('localeId');
     return (
       <Layout style={{ minHeight: '100vh' }}>
@@ -34,7 +56,16 @@ class AmsWrapper extends Component {
               <Route exact path="/reports" component={ReportsHome} />
               <Route exact path="/calendar" component={AttendanceCalendar} />
               <Route exact path="/locale_church/:localeId/calendar" component={AttendanceCalendar} />
-              <Route exact path="/locale_church/:localeId/attendance" component={AttendanceForm} />
+              <Route exact path="/locale_church/:localeId/attendance"
+                render={
+                  (props) => <AttendanceForm {...props} setMember={this.setMember} />
+                }
+              />
+              <Route exact path="/locale_church/:localeId/confirm_attendance"
+                render={
+                  (props) => <AttendanceConfirm {...props} checkedMembers={this.state.checkedMembers} />
+                }
+              />
               <Route exact path="/reports/:localeId" component={ReportForm} />
             </div>
           </Content>
