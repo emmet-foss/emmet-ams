@@ -96,7 +96,7 @@ class Home extends Component {
             <Row type="flex" justify="center">
               <Col xs={24} sm={24} md={24} lg={12}>
                 <NavLink to={`/locale_church/${selectedLocale}/calendar`}>
-                  <Button block type="primary">
+                  <Button block type="primary" disabled={!selectedLocale}>
                     Next<Icon type="right"/>
                   </Button>
                 </NavLink>

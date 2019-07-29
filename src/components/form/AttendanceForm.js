@@ -42,6 +42,7 @@ class AttendanceForm extends Component {
     this.getMembers()
       .then(res => this.setState({ members: res.members }))
       .catch(err => console.log(err));
+    this.props.clearMembers();
   }
 
   componentWillReceiveProps(nextProps) {
@@ -98,7 +99,12 @@ class AttendanceForm extends Component {
                   />
                 </div>
               }
-              <Button block type="primary" onClick={this.handleConfirmAttendance}>
+              <Button
+                block
+                type="primary"
+                onClick={this.handleConfirmAttendance}
+                disabled={this.props.checkedMembers.length <= 0}
+              >
                 Confirm<Icon type="right"/>
               </Button>
             </Col>
