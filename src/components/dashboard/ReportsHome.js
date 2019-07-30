@@ -21,8 +21,7 @@ const Option = Select.Option;
 
 class ReportsHome extends Component {
   state = {
-    stores: [],
-    availableDates: [],
+    members: [],
     selectedLocale: '',
     selectedReport: '',
   };
@@ -60,6 +59,13 @@ class ReportsHome extends Component {
     return body;
   };
 
+  getMembers = async (localeId) => {
+    const response = await emmetAPI.getUrl(`/ams/report/${localeId}/members`);
+    const body = await response.json();
+    if (response.status !== 200) throw Error(body.message);
+    return body;
+  };
+
   handleLocaleSelect = async (localeValue) => {
     ReactGA.event({
       category: 'Report',
@@ -68,6 +74,10 @@ class ReportsHome extends Component {
     this.setState({
       selectedLocale: localeValue
     });
+
+    this.getMembers(localeValue)
+      .then(res => this.setState({ members: res.members }))
+      .catch(err => console.log(err));
   };
 
   handleReportSelect = async (reportValue) => {

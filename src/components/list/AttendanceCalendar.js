@@ -44,7 +44,8 @@ class AttendanceCalendar extends Component {
       action: 'go to attendance date'
     });
     const localeId = this.props.location.pathname.split('/')[2];
-    this.props.history.push(`/locale_church/${localeId}/attendance?attendanceDate=${attendanceDate.format("YYYY-MM-DD")}`)
+    const { selectedGathering } = this.state;
+    this.props.history.push(`/locale_church/${localeId}/attendance?attendanceDate=${attendanceDate.format("YYYY-MM-DD")}&gathering=${selectedGathering}`)
   };
 
   handleReportSelect = (value) => {
