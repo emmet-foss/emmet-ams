@@ -4,16 +4,17 @@ import { Route, NavLink } from 'react-router-dom';
 import { withRouter } from "react-router";
 import { Icon, Layout, Menu } from 'antd';
 import ReactGA from 'react-ga';
-ReactGA.initialize('UA-144836204-1');
 
 import { Home, ReportsHome } from './dashboard';
 import { AttendanceCalendar } from './list';
 import { AttendanceForm, AttendanceConfirm, ReportForm } from './form';
 
+import withTracker from '../helpers/withTracker';
+
 import 'antd/dist/antd.css';
 import './Wrapper.css';
 
-import withTracker from '../helpers/withTracker';
+ReactGA.initialize('UA-144836204-1');
 
 const {
   Content, Footer
