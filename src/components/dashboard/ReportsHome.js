@@ -10,6 +10,7 @@ import {
   Statistic,
   Row,
 } from 'antd';
+import ReactGA from 'react-ga';
 
 import emmetAPI from '../../emmetAPI';
 
@@ -60,12 +61,20 @@ class ReportsHome extends Component {
   };
 
   handleLocaleSelect = async (localeValue) => {
+    ReactGA.event({
+      category: 'Report',
+      action: 'locale select'
+    });
     this.setState({
       selectedLocale: localeValue
     });
   };
 
   handleReportSelect = async (reportValue) => {
+    ReactGA.event({
+      category: 'Report',
+      action: 'report select'
+    });
     this.setState({
       selectedReport: reportValue
     });

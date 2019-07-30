@@ -11,6 +11,7 @@ import {
   Row,
   Statistic,
 } from 'antd';
+import ReactGA from 'react-ga';
 
 import emmetAPI from '../../emmetAPI';
 
@@ -31,7 +32,12 @@ class AttendanceForm extends Component {
     };
 	}
 
-  handleConfirmAttendance = async () => {
+  handleSubmitAttendance = async () => {
+    ReactGA.event({
+      category: 'Attendance',
+      action: 'submit attendance'
+    });
+
     this.setState({ loading: true })
     const localeId = this.props.location.pathname.split('/')[2];
     const query = qs.parse(this.props.location.search);
@@ -96,7 +102,7 @@ class AttendanceForm extends Component {
                 block
                 type="primary"
                 loading={this.state.loading}
-                onClick={this.handleConfirmAttendance}
+                onClick={this.handleSubmitAttendance}
               >
                 Submit
               </Button>
