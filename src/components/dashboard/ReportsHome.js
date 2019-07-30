@@ -1,14 +1,8 @@
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 import {
-  Button,
-  Col,
-  Form,
-  Icon,
-  PageHeader,
-  Select,
-  Statistic,
-  Row,
+  Button, Col, DatePicker, Form, Icon,
+  PageHeader, Select, Statistic, Row,
 } from 'antd';
 import ReactGA from 'react-ga';
 
@@ -18,6 +12,7 @@ import 'antd/dist/antd.css';
 import './Home.css';
 
 const Option = Select.Option;
+const { MonthPicker, RangePicker, WeekPicker } = DatePicker;
 
 class ReportsHome extends Component {
   state = {
@@ -90,6 +85,10 @@ class ReportsHome extends Component {
     });
   };
 
+  onChange = async (date, dateString) => {
+    console.log(date, dateString);
+  }
+
   render() {
 
     const formItemLayout = {
@@ -155,10 +154,33 @@ class ReportsHome extends Component {
                 </Form>
               </Col>
             </Row>
+            { selectedReport &&
+              <Row type="flex" justify="center">
+                <Col xs={24} sm={24} md={24} lg={12}>
+                  <Form {...formItemLayout}>
+                    <Form.Item label="Duration">
+                      { selectedReport === "weekly" && 
+                        <WeekPicker onChange={this.onChange} placeholder="Select week" />
+                      }
+                      { selectedReport === "monthly" && 
+                        <MonthPicker onChange={this.onChange} placeholder="Select month" />
+                      }
+                      { selectedReport === "custom" && 
+                        <RangePicker onChange={this.onChange} />
+                      }
+                    </Form.Item>
+                  </Form>
+                </Col>
+              </Row>
+            }
             <Row type="flex" justify="center">
               <Col xs={24} sm={24} md={24} lg={12}>
                 <NavLink to={`/reports/${selectedLocale}?reportType=${selectedReport}`}>
-                  <Button block type="primary">
+                  <Button
+                    block
+                    type="primary"
+                    disabled={ !selectedReport }
+                  >
                     Next<Icon type="right"/>
                   </Button>
                 </NavLink>

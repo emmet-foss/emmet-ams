@@ -51,7 +51,7 @@ class AttendanceCalendar extends Component {
   handleReportSelect = (value) => {
     ReactGA.event({
       category: 'AttendanceCalendar',
-      action: 'select report'
+      action: 'select report type'
     });
     this.setState({ selectedGathering: value })
   }
