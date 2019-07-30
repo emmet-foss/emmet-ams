@@ -3,6 +3,8 @@ import PropTypes from "prop-types";
 import { Route, NavLink } from 'react-router-dom';
 import { withRouter } from "react-router";
 import { Icon, Layout, Menu } from 'antd';
+import ReactGA from 'react-ga';
+ReactGA.initialize('UA-144836204-1');
 
 import { Home, ReportsHome } from './dashboard';
 import { AttendanceCalendar } from './list';
@@ -10,6 +12,8 @@ import { AttendanceForm, AttendanceConfirm, ReportForm } from './form';
 
 import 'antd/dist/antd.css';
 import './Wrapper.css';
+
+import withTracker from '../helpers/withTracker';
 
 const {
   Content, Footer
@@ -58,28 +62,28 @@ class AmsWrapper extends Component {
         <Layout>
           <Content style={{ margin: '24px 16px 0' }}>
             <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
-              <Route exact path="/" component={Home} />
-              <Route exact path="/reports" component={ReportsHome} />
-              <Route exact path="/calendar" component={AttendanceCalendar} />
-              <Route exact path="/locale_church/:localeId/calendar" component={AttendanceCalendar} />
+              <Route exact path="/" component={withTracker(Home)} />
+              <Route exact path="/reports" component={withTracker(ReportsHome)} />
+              <Route exact path="/calendar" component={withTracker(AttendanceCalendar)} />
+              <Route exact path="/locale_church/:localeId/calendar" component={withTracker(AttendanceCalendar)} />
               <Route exact path="/locale_church/:localeId/attendance"
                 render={(props) =>
-                  <AttendanceForm
+                  withTracker(<AttendanceForm
                     {...props}
                     setMember={this.setMember} 
                     checkedMembers={this.state.checkedMembers}
                     clearMembers={this.clearMembers}
-                  />
+                  />)
                 }
               />
               <Route exact path="/locale_church/:localeId/confirm_attendance"
                 render={(props) => 
-                  <AttendanceConfirm {...props}
+                  withTracker(<AttendanceConfirm {...props}
                     checkedMembers={this.state.checkedMembers} 
-                  />
+                  />)
                 }
               />
-              <Route exact path="/reports/:localeId" component={ReportForm} />
+              <Route exact path="/reports/:localeId" component={withTracker(ReportForm)} />
             </div>
           </Content>
           <Footer style={{ position: "sticky", bottom: "0" }}>
