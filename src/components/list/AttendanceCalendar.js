@@ -9,6 +9,7 @@ import {
   Statistic,
 } from 'antd';
 import Animate from 'rc-animate';
+import ReactGA from 'react-ga';
 
 import 'antd/dist/antd.css';
 import './List.css';
@@ -38,11 +39,19 @@ class AttendanceCalendar extends Component {
   }
 
   goToAttendanceDate = async (attendanceDate) => {
+    ReactGA.event({
+      category: 'AttendanceCalendar',
+      action: 'go to attendance date'
+    });
     const localeId = this.props.location.pathname.split('/')[2];
     this.props.history.push(`/locale_church/${localeId}/attendance?attendanceDate=${attendanceDate.format("YYYY-MM-DD")}`)
   };
 
   handleReportSelect = (value) => {
+    ReactGA.event({
+      category: 'AttendanceCalendar',
+      action: 'select report'
+    });
     this.setState({ selectedGathering: value })
   }
 

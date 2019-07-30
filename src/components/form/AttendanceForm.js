@@ -12,6 +12,7 @@ import {
   Row,
   Statistic,
 } from 'antd';
+import ReactGA from 'react-ga';
 
 import emmetAPI from '../../emmetAPI';
 
@@ -62,6 +63,10 @@ class AttendanceForm extends Component {
   };
 
   handleConfirmAttendance = async () => {
+    ReactGA.event({
+      category: 'Attendance',
+      action: 'confirm attendance'
+    });
     const localeId = this.props.location.pathname.split('/')[2];
     const query = qs.parse(this.props.location.search);
     const attendanceDate = query.attendanceDate;
