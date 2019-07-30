@@ -52,7 +52,6 @@ class AmsWrapper extends Component {
   }
 
   clearMembers = () => {
-    console.log('clear members')
     this.setState({ checkedMembers: [] });
   }
 
@@ -69,19 +68,20 @@ class AmsWrapper extends Component {
               <Route exact path="/locale_church/:localeId/calendar" component={withTracker(AttendanceCalendar)} />
               <Route exact path="/locale_church/:localeId/attendance"
                 render={(props) =>
-                  withTracker(<AttendanceForm
+                  <AttendanceForm
                     {...props}
                     setMember={this.setMember} 
                     checkedMembers={this.state.checkedMembers}
                     clearMembers={this.clearMembers}
-                  />)
+                  />
                 }
               />
               <Route exact path="/locale_church/:localeId/confirm_attendance"
                 render={(props) => 
-                  withTracker(<AttendanceConfirm {...props}
-                    checkedMembers={this.state.checkedMembers} 
-                  />)
+                  <AttendanceConfirm {...props}
+                    checkedMembers={this.state.checkedMembers}
+                    clearMembers={this.clearMembers}
+                  />
                 }
               />
               <Route exact path="/reports/:localeId" component={withTracker(ReportForm)} />

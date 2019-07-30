@@ -44,6 +44,7 @@ class AttendanceForm extends Component {
       .then(res => this.setState({ members: res.members }))
       .catch(err => console.log(err));
     this.props.clearMembers();
+    ReactGA.pageview(window.location.pathname + window.location.search)
   }
 
   componentWillReceiveProps(nextProps) {
@@ -69,8 +70,8 @@ class AttendanceForm extends Component {
     });
     const localeId = this.props.location.pathname.split('/')[2];
     const query = qs.parse(this.props.location.search);
-    const attendanceDate = query.attendanceDate;
-    this.props.history.push(`/locale_church/${localeId}/confirm_attendance?attendanceDate=${attendanceDate}`)
+    const { attendanceDate, gathering } = query
+    this.props.history.push(`/locale_church/${localeId}/confirm_attendance?attendanceDate=${attendanceDate}&gathering=${gathering}`)
   };
 
   render() {
