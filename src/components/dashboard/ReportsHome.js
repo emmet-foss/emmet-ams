@@ -19,6 +19,7 @@ class ReportsHome extends Component {
     members: [],
     selectedLocale: '',
     selectedReport: '',
+    duration: '',
   };
 
   componentDidMount() {
@@ -86,6 +87,7 @@ class ReportsHome extends Component {
   };
 
   onChange = async (date, dateString) => {
+    this.setState({ duration: dateString})
     console.log(date, dateString);
   }
 
@@ -106,6 +108,7 @@ class ReportsHome extends Component {
       churchLocales,
       selectedLocale,
       selectedReport,
+      duration,
     } = this.state;
 
     return (
@@ -175,7 +178,7 @@ class ReportsHome extends Component {
             }
             <Row type="flex" justify="center">
               <Col xs={24} sm={24} md={24} lg={12}>
-                <NavLink to={`/reports/${selectedLocale}?reportType=${selectedReport}`}>
+                <NavLink to={`/reports/${selectedLocale}/${selectedReport}?duration=${duration}`}>
                   <Button
                     block
                     type="primary"
