@@ -17,6 +17,8 @@ import './Report.css';
 class MonthlyReport extends Component {
   state = {
     result: [],
+    period: "",
+    localeInfo: "",
   };
 
   componentDidMount() {
@@ -26,27 +28,56 @@ class MonthlyReport extends Component {
         this.setState({ result: res.result })
       })
       .catch(err => console.log(err));  
+
+    this.getLocaleInfo()
+      .then(res => {
+        console.log('res', res)
+        this.setState({ localeInfo: res.locale })
+      })
+      .catch(err => console.log(err));  
+
+    const query = qs.parse(this.props.location.search);
+    this.setState( { period: query.period } );
   }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.location !== this.props.location) {
       this.getMonthlyAttendance()
-      .then(res => {
-        this.setState({ result: res.result })
-      })
-      .catch(err => console.log(err));
+        .then(res => {
+          this.setState({ result: res.result })
+        })
+        .catch(err => console.log(err));
+
+      this.getLocaleInfo()
+        .then(res => {
+          console.log('res', res)
+          this.setState({ localeInfo: res.locale })
+        })
+        .catch(err => console.log(err));  
+  
+      const query = qs.parse(this.props.location.search);
+      this.setState( { period: query.period } );
     }
   }
 
   getMonthlyAttendance = async () => {
     const localeId = this.props.location.pathname.split('/')[2];
     const query = qs.parse(this.props.location.search);
-    const { duration } = query;
-    const response = await emmetAPI.getUrl(`/ams/attendance/${localeId}/monthly?duration=${duration}`)
+    const response = await emmetAPI.getUrl(`/ams/attendance/${localeId}/monthly?period=${query.period}`)
     const body = await response.json();
     if (response.status !== 200) throw Error(body.message);
     return body;
   };
+
+  getLocaleInfo = async () => {
+    const localeId = this.props.location.pathname.split('/')[2];
+    const query = qs.parse(this.props.location.search);
+    const response = await emmetAPI.getUrl(`/ams/locale_churches/${localeId}`)
+    const body = await response.json();
+    if (response.status !== 200) throw Error(body.message);
+    return body;
+  };
+
 
   handleLocaleSelect = async (localeValue) => {
     ReactGA.event({
@@ -61,6 +92,8 @@ class MonthlyReport extends Component {
   render() {
     const {
       result,
+      period,
+      localeInfo,
     } = this.state;
     console.log('result', result)
     return (
@@ -70,10 +103,11 @@ class MonthlyReport extends Component {
             <Row type="flex" justify="center">
               <Col xs={24} sm={24} md={24} lg={12}>
               {(result && result.length === 0) ?
-                <Statistic value="No members available in this locale." />
+                <Statistic value={`No ${localeInfo.name} attendance available for the period ${period}.`} />
               :
                 <div>
-                  <Statistic value="Here's the attendance for the selected duration:" />
+                  <Statistic value={`Here's the ${localeInfo.name} attendance`} />
+                  <Statistic value={`For the period ${period}:`} />
                   <List
                     itemLayout="horizontal"
                     bordered
