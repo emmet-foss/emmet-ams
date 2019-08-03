@@ -8,6 +8,8 @@ import ReactGA from 'react-ga';
 import { Home, ReportsHome } from './dashboard';
 import { AttendanceCalendar } from './list';
 import { AttendanceForm, AttendanceConfirm, ReportForm } from './form';
+import { MonthlyReport } from './reports';
+import * as Reports from './reports/weekly';
 
 import withTracker from '../helpers/withTracker';
 
@@ -64,6 +66,8 @@ class AmsWrapper extends Component {
             <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
               <Route exact path="/" component={withTracker(Home)} />
               <Route exact path="/reports" component={withTracker(ReportsHome)} />
+              <Route exact path="/reports/:localeId/weekly" component={withTracker(Reports.WeeklyReport)} />
+              <Route exact path="/reports/:localeId/monthly" component={withTracker(MonthlyReport)} />
               <Route exact path="/calendar" component={withTracker(AttendanceCalendar)} />
               <Route exact path="/locale_church/:localeId/calendar" component={withTracker(AttendanceCalendar)} />
               <Route exact path="/locale_church/:localeId/attendance"

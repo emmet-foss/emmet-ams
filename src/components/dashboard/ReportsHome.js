@@ -19,6 +19,7 @@ class ReportsHome extends Component {
     members: [],
     selectedLocale: '',
     selectedReport: '',
+    period: '',
   };
 
   componentDidMount() {
@@ -86,6 +87,7 @@ class ReportsHome extends Component {
   };
 
   onChange = async (date, dateString) => {
+    this.setState({ period: dateString})
     console.log(date, dateString);
   }
 
@@ -106,6 +108,7 @@ class ReportsHome extends Component {
       churchLocales,
       selectedLocale,
       selectedReport,
+      period,
     } = this.state;
 
     return (
@@ -158,7 +161,7 @@ class ReportsHome extends Component {
               <Row type="flex" justify="center">
                 <Col xs={24} sm={24} md={24} lg={12}>
                   <Form {...formItemLayout}>
-                    <Form.Item label="Duration">
+                    <Form.Item label="Period">
                       { selectedReport === "weekly" && 
                         <WeekPicker onChange={this.onChange} placeholder="Select week" />
                       }
@@ -175,7 +178,7 @@ class ReportsHome extends Component {
             }
             <Row type="flex" justify="center">
               <Col xs={24} sm={24} md={24} lg={12}>
-                <NavLink to={`/reports/${selectedLocale}?reportType=${selectedReport}`}>
+                <NavLink to={`/reports/${selectedLocale}/${selectedReport}?period=${period}`}>
                   <Button
                     block
                     type="primary"
