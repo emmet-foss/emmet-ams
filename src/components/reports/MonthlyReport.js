@@ -24,14 +24,12 @@ class MonthlyReport extends Component {
   componentDidMount() {
     this.getMonthlyAttendance()
       .then(res => {
-        console.log('res', res)
         this.setState({ result: res.result })
       })
       .catch(err => console.log(err));  
 
     this.getLocaleInfo()
       .then(res => {
-        console.log('res', res)
         this.setState({ localeInfo: res.locale })
       })
       .catch(err => console.log(err));  
@@ -50,7 +48,6 @@ class MonthlyReport extends Component {
 
       this.getLocaleInfo()
         .then(res => {
-          console.log('res', res)
           this.setState({ localeInfo: res.locale })
         })
         .catch(err => console.log(err));  
@@ -71,7 +68,6 @@ class MonthlyReport extends Component {
 
   getLocaleInfo = async () => {
     const localeId = this.props.location.pathname.split('/')[2];
-    const query = qs.parse(this.props.location.search);
     const response = await emmetAPI.getUrl(`/ams/locale_churches/${localeId}`)
     const body = await response.json();
     if (response.status !== 200) throw Error(body.message);
@@ -95,7 +91,6 @@ class MonthlyReport extends Component {
       period,
       localeInfo,
     } = this.state;
-    console.log('result', result)
     return (
       <PageHeader>
         <div className="wrap">
@@ -103,11 +98,11 @@ class MonthlyReport extends Component {
             <Row type="flex" justify="center">
               <Col xs={24} sm={24} md={24} lg={12}>
               {(result && result.length === 0) ?
-                <Statistic value={`No ${localeInfo.name} attendance available for the period ${period}.`} />
+                <Statistic value={`No ${localeInfo.name} attendance available for ${period}.`} />
               :
                 <div>
-                  <Statistic value={`Here's the ${localeInfo.name} attendance`} />
-                  <Statistic value={`For the period ${period}:`} />
+                  <Statistic value={"Here's the attendance for"} />
+                  <Statistic value={`${localeInfo.name}, ${period}:`} />
                   <List
                     itemLayout="horizontal"
                     bordered

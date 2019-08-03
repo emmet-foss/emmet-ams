@@ -85,7 +85,7 @@ class AttendanceForm extends Component {
                 <Statistic value="No members available in this locale." />
               :
                 <div>
-                  <Statistic value="Attendance for the following members will be submitted:" />
+                  <Statistic value="Please confirm the following attendance:" />
                   <List
                     itemLayout="horizontal"
                     bordered
