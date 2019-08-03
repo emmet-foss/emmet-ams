@@ -148,10 +148,9 @@ class ReportsHome extends Component {
                         placeholder="Select a report"
                         dropdownMatchSelectWidth={false}
                         onChange={this.handleReportSelect}
+                        value={"monthly"}
                       >
-                        <Option value="weekly">Weekly</Option>
                         <Option value="monthly">Monthly</Option>
-                        <Option value="custom">Custom</Option>
                     </Select>
                   </Form.Item>
                 </Form>
