@@ -18,7 +18,7 @@ class ReportsHome extends Component {
   state = {
     members: [],
     selectedLocale: '',
-    selectedReport: '',
+    selectedReport: 'monthly',
     period: '',
   };
 
@@ -148,10 +148,9 @@ class ReportsHome extends Component {
                         placeholder="Select a report"
                         dropdownMatchSelectWidth={false}
                         onChange={this.handleReportSelect}
+                        value={"monthly"}
                       >
-                        <Option value="weekly">Weekly</Option>
                         <Option value="monthly">Monthly</Option>
-                        <Option value="custom">Custom</Option>
                     </Select>
                   </Form.Item>
                 </Form>
@@ -182,7 +181,7 @@ class ReportsHome extends Component {
                   <Button
                     block
                     type="primary"
-                    disabled={ !selectedReport }
+                    disabled={ !selectedReport || !period }
                   >
                     Next<Icon type="right"/>
                   </Button>

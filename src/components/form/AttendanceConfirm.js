@@ -62,7 +62,7 @@ class AttendanceForm extends Component {
       if (res.status === 200) {
         this.props.clearMembers();
         message.success('Attendance successfully submitted.');
-        this.props.history.push("/")
+        this.props.history.push("/reports")
       } else {
         const error = new Error(res.error);
         throw error;
