@@ -7,7 +7,7 @@ import ReactGA from 'react-ga';
 
 import { Home, ReportsHome } from './dashboard';
 import { AttendanceCalendar } from './list';
-import { AttendanceForm, AttendanceConfirm, ReportForm } from './form';
+import { AttendanceForm, AttendanceConfirm, RegisterMember, ReportForm } from './form';
 import { MonthlyReport } from './reports';
 import * as Reports from './reports/weekly';
 
@@ -88,7 +88,7 @@ class AmsWrapper extends Component {
                   />
                 }
               />
-              <Route exact path="/reports/:localeId" component={withTracker(ReportForm)} />
+              <Route exact path="/members" component={withTracker(RegisterMember)} />
             </div>
           </Content>
           <Footer style={{ position: "sticky", bottom: "0" }}>
@@ -110,7 +110,12 @@ class AmsWrapper extends Component {
               </Menu.Item>
               <Menu.Item key="/reports">
                 <NavLink to="/reports">
-                  <Icon type="audit" />
+                  <Icon type="table" />
+                </NavLink>
+              </Menu.Item>
+              <Menu.Item key={`/members`}>
+                <NavLink to={`/members`}>
+                  <Icon type="user-add" />
                 </NavLink>
               </Menu.Item>
             </Menu>

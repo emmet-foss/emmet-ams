@@ -18,7 +18,7 @@ class ReportsHome extends Component {
   state = {
     members: [],
     selectedLocale: '',
-    selectedReport: '',
+    selectedReport: 'monthly',
     period: '',
   };
 
@@ -181,7 +181,7 @@ class ReportsHome extends Component {
                   <Button
                     block
                     type="primary"
-                    disabled={ !selectedReport }
+                    disabled={ !selectedReport || !period }
                   >
                     Next<Icon type="right"/>
                   </Button>
