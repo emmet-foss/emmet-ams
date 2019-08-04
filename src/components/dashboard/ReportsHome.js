@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 import {
   Button, Col, DatePicker, Form, Icon,
-  PageHeader, Select, Statistic, Row,
+  Select, Statistic, Row,
 } from 'antd';
 import ReactGA from 'react-ga';
 
@@ -112,86 +112,83 @@ class ReportsHome extends Component {
     } = this.state;
 
     return (
-      <PageHeader>
-        <div className="wrap">
-          <div className="extraContent">
-            <Row type="flex" justify="center">
-              <Col xs={24} sm={24} md={24} lg={12}>
-                <Statistic value="Please select the report you would like to generate." />
-              </Col>
-            </Row>
+      <div className="wrap">
+        <div className="extraContent">
+          <Row type="flex" justify="center">
+            <Col xs={24} sm={24} md={24} lg={12}>
+              <Statistic value="Please select the report you would like to generate." />
+            </Col>
+          </Row>
+          <Row type="flex" justify="center">
+            <Col xs={24} sm={24} md={24} lg={12}>
+              <Form {...formItemLayout}>
+                <Form.Item label="Locale">
+                  <Select
+                      showSearch
+                      placeholder="Select a locale"
+                      dropdownMatchSelectWidth={false}
+                      onChange={this.handleLocaleSelect}
+                      value={selectedLocale}
+                    >
+                      {churchLocales && churchLocales.map(locale => {
+                        return <Option key={locale._id} value={locale._id}>{locale.name}</Option>
+                      })}
+                  </Select>
+                </Form.Item>
+              </Form>
+            </Col>
+          </Row>
+          <Row type="flex" justify="center">
+            <Col xs={24} sm={24} md={24} lg={12}>
+              <Form {...formItemLayout}>
+                <Form.Item label="Report">
+                  <Select
+                      showSearch
+                      placeholder="Select a report"
+                      dropdownMatchSelectWidth={false}
+                      onChange={this.handleReportSelect}
+                      value={"monthly"}
+                    >
+                      <Option value="monthly">Monthly</Option>
+                  </Select>
+                </Form.Item>
+              </Form>
+            </Col>
+          </Row>
+          { selectedReport &&
             <Row type="flex" justify="center">
               <Col xs={24} sm={24} md={24} lg={12}>
                 <Form {...formItemLayout}>
-                  <Form.Item label="Locale">
-                    <Select
-                        showSearch
-                        placeholder="Select a locale"
-                        dropdownMatchSelectWidth={false}
-                        onChange={this.handleLocaleSelect}
-                        value={selectedLocale}
-                      >
-                        {churchLocales && churchLocales.map(locale => {
-                          return <Option key={locale._id} value={locale._id}>{locale.name}</Option>
-                        })}
-                    </Select>
+                  <Form.Item label="Period">
+                    { selectedReport === "weekly" && 
+                      <WeekPicker onChange={this.onChange} placeholder="Select week" />
+                    }
+                    { selectedReport === "monthly" && 
+                      <MonthPicker onChange={this.onChange} placeholder="Select month" />
+                    }
+                    { selectedReport === "custom" && 
+                      <RangePicker onChange={this.onChange} />
+                    }
                   </Form.Item>
                 </Form>
               </Col>
             </Row>
-            <Row type="flex" justify="center">
-              <Col xs={24} sm={24} md={24} lg={12}>
-                <Form {...formItemLayout}>
-                  <Form.Item label="Report">
-                    <Select
-                        showSearch
-                        placeholder="Select a report"
-                        dropdownMatchSelectWidth={false}
-                        onChange={this.handleReportSelect}
-                        value={"monthly"}
-                      >
-                        <Option value="monthly">Monthly</Option>
-                    </Select>
-                  </Form.Item>
-                </Form>
-              </Col>
-            </Row>
-            { selectedReport &&
-              <Row type="flex" justify="center">
-                <Col xs={24} sm={24} md={24} lg={12}>
-                  <Form {...formItemLayout}>
-                    <Form.Item label="Period">
-                      { selectedReport === "weekly" && 
-                        <WeekPicker onChange={this.onChange} placeholder="Select week" />
-                      }
-                      { selectedReport === "monthly" && 
-                        <MonthPicker onChange={this.onChange} placeholder="Select month" />
-                      }
-                      { selectedReport === "custom" && 
-                        <RangePicker onChange={this.onChange} />
-                      }
-                    </Form.Item>
-                  </Form>
-                </Col>
-              </Row>
-            }
-            <Row type="flex" justify="center">
-              <Col xs={24} sm={24} md={24} lg={12}>
-                <NavLink to={`/reports/${selectedLocale}/${selectedReport}?period=${period}`}>
-                  <Button
-                    block
-                    type="primary"
-                    disabled={ !selectedReport || !period }
-                  >
-                    Next<Icon type="right"/>
-                  </Button>
-                </NavLink>
-              </Col>
-            </Row>
-          </div>
+          }
+          <Row type="flex" justify="center">
+            <Col xs={24} sm={24} md={24} lg={12}>
+              <NavLink to={`/reports/${selectedLocale}/${selectedReport}?period=${period}`}>
+                <Button
+                  block
+                  type="primary"
+                  disabled={ !selectedReport || !period }
+                >
+                  Next<Icon type="right"/>
+                </Button>
+              </NavLink>
+            </Col>
+          </Row>
         </div>
-      </PageHeader>
-
+      </div>
     );
   }
 }

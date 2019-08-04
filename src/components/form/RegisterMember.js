@@ -175,7 +175,7 @@ class RegisterMember extends Component {
                     >Worker</Checkbox>
                   </Form.Item>
                   <Form.Item {...tailFormItemLayout}>
-                    <Button type="primary" htmlType="submit">Register</Button>
+                    <Button block type="primary" htmlType="submit">Register</Button>
                     <p>{this.state.responseToPost}</p>
                   </Form.Item>
                 </Form>
