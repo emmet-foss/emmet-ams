@@ -62,7 +62,9 @@ class AttendanceForm extends Component {
       if (res.status === 200) {
         this.props.clearMembers();
         message.success('Attendance successfully submitted.');
-        this.props.history.push("/reports")
+
+        const period = attendanceDate.substr(0,7)
+        this.props.history.push(`/reports/${localeId}/monthly?period=${period}`)
       } else {
         const error = new Error(res.error);
         throw error;
