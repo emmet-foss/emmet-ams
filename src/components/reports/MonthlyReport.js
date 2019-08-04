@@ -1,10 +1,6 @@
 import React, { Component } from 'react';
 import {
-  Col,
-  List,
-  PageHeader,
-  Statistic,
-  Row,
+  Col, Row, Statistic, Table,
 } from 'antd';
 import * as qs from 'query-string';
 import ReactGA from 'react-ga';
@@ -13,6 +9,26 @@ import emmetAPI from '../../emmetAPI';
 
 import 'antd/dist/antd.css';
 import './Report.css';
+
+const columns = [
+  {
+    title: 'Date',
+    dataIndex: '_id',
+    key: '_id',
+    render: _id => <span>{_id.attendanceDate.substr(0,10)}</span>,
+  },
+  {
+    title: 'Event/Activity',
+    dataIndex: '_id',
+    key: '_id',
+    render: _id => <span>{_id.gathering}</span>,
+  },
+  {
+    title: 'No. of Attendees',
+    dataIndex: 'count',
+    key: 'count',
+  },
+];
 
 class MonthlyReport extends Component {
   state = {
@@ -102,19 +118,7 @@ class MonthlyReport extends Component {
               <div>
                 <Statistic value={"Here's the attendance for"} />
                 <Statistic value={`${localeInfo.name}, ${period}:`} />
-                <List
-                  itemLayout="horizontal"
-                  bordered
-                  size="large"
-                  dataSource={result}
-                  renderItem={item => (
-                    <List.Item
-                      key={item._id}
-                    >
-                      {item._id.attendanceDate.substr(0,10)}, {item._id.gathering}, {item.count}
-                    </List.Item>
-                  )}
-                />
+                <Table pagination={false} columns={columns} dataSource={result} />
               </div>
             }
             </Col>
