@@ -166,13 +166,13 @@ class RegisterMember extends Component {
                   >
                     <Checkbox
                       onChange={e => this.setState({ isUnderProbationary: e.target.checked })}
-                    >Is Under Probationary</Checkbox>
+                    >Under Probationary</Checkbox>
                     <Checkbox
                       onChange={e => this.setState({ isYouth: e.target.checked })}
-                    >Is Youth</Checkbox>
+                    >Youth</Checkbox>
                     <Checkbox
                       onChange={e => this.setState({ isWorker: e.target.checked })}
-                    >Is Worker</Checkbox>
+                    >Worker</Checkbox>
                   </Form.Item>
                   <Form.Item {...tailFormItemLayout}>
                     <Button type="primary" htmlType="submit">Register</Button>
