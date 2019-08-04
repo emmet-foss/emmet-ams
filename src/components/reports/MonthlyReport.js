@@ -92,38 +92,35 @@ class MonthlyReport extends Component {
       localeInfo,
     } = this.state;
     return (
-      <PageHeader>
-        <div className="wrap">
-          <div className="extraContent">
-            <Row type="flex" justify="center">
-              <Col xs={24} sm={24} md={24} lg={12}>
-              {(result && result.length === 0) ?
-                <Statistic value={`No ${localeInfo.name} attendance available for ${period}.`} />
-              :
-                <div>
-                  <Statistic value={"Here's the attendance for"} />
-                  <Statistic value={`${localeInfo.name}, ${period}:`} />
-                  <List
-                    itemLayout="horizontal"
-                    bordered
-                    size="large"
-                    dataSource={result}
-                    renderItem={item => (
-                      <List.Item
-                        key={item._id}
-                      >
-                        {item._id.attendanceDate.substr(0,10)}, {item._id.gathering}, {item.count}
-                      </List.Item>
-                    )}
-                  />
-                </div>
-              }
-              </Col>
-            </Row>
-          </div>
+      <div className="wrap">
+        <div className="extraContent">
+          <Row type="flex" justify="center">
+            <Col xs={24} sm={24} md={24} lg={12}>
+            {(result && result.length === 0) ?
+              <Statistic value={`No ${localeInfo.name} attendance available for ${period}.`} />
+            :
+              <div>
+                <Statistic value={"Here's the attendance for"} />
+                <Statistic value={`${localeInfo.name}, ${period}:`} />
+                <List
+                  itemLayout="horizontal"
+                  bordered
+                  size="large"
+                  dataSource={result}
+                  renderItem={item => (
+                    <List.Item
+                      key={item._id}
+                    >
+                      {item._id.attendanceDate.substr(0,10)}, {item._id.gathering}, {item.count}
+                    </List.Item>
+                  )}
+                />
+              </div>
+            }
+            </Col>
+          </Row>
         </div>
-      </PageHeader>
-
+      </div>
     );
   }
 }
