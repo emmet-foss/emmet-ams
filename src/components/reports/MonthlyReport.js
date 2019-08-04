@@ -112,7 +112,7 @@ class MonthlyReport extends Component {
                       <List.Item
                         key={item._id}
                       >
-                        {item._id.attendanceDate.substr(0, 7)}, {item._id.gathering}, {item.count}
+                        {item._id.attendanceDate.substr(0,10)}, {item._id.gathering}, {item.count}
                       </List.Item>
                     )}
                   />
