@@ -1,13 +1,8 @@
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 import {
-  Button,
-  Col,
-  Icon,
-  PageHeader,
-  Select,
-  Statistic,
-  Row,
+  Button, Col, Icon,
+  Select, Statistic, Row,
 } from 'antd';
 import ReactGA from 'react-ga';
 
@@ -73,44 +68,41 @@ class Home extends Component {
       selectedLocale,
     } = this.state;
     return (
-      <PageHeader>
-        <div className="wrap">
-          <div className="extraContent">
-            <Row type="flex" justify="center">
-              <Col xs={24} sm={24} md={24} lg={12}>
-                <div>Welcome to Emmet AMS!</div>
-              </Col>
-            </Row>
-            <Row type="flex" justify="center">
-              <Col xs={24} sm={24} md={24} lg={12}>
-                <Statistic value="From what locale are you?" />
-                <Select
-                  showSearch
-                  style={{ width: '100%' }}
-                  placeholder="Select a locale"
-                  dropdownMatchSelectWidth={false}
-                  onChange={this.handleLocaleSelect}
-                  value={selectedLocale}
-                >
-                  {churchLocales && churchLocales.map(locale => {
-                    return <Option key={locale._id} value={locale._id}>{locale.name}</Option>
-                  })}
-                </Select>
-              </Col>
-            </Row>
-            <Row type="flex" justify="center">
-              <Col xs={24} sm={24} md={24} lg={12}>
-                <NavLink to={`/locale_church/${selectedLocale}/calendar`}>
-                  <Button block type="primary" disabled={!selectedLocale}>
-                    Next<Icon type="right"/>
-                  </Button>
-                </NavLink>
-              </Col>
-            </Row>
-          </div>
+      <div className="wrap">
+        <div className="extraContent">
+          <Row type="flex" justify="center">
+            <Col xs={24} sm={24} md={24} lg={12}>
+              <div>Welcome to Emmet AMS!</div>
+            </Col>
+          </Row>
+          <Row type="flex" justify="center">
+            <Col xs={24} sm={24} md={24} lg={12}>
+              <Statistic value="From what locale are you?" />
+              <Select
+                showSearch
+                style={{ width: '100%' }}
+                placeholder="Select a locale"
+                dropdownMatchSelectWidth={false}
+                onChange={this.handleLocaleSelect}
+                value={selectedLocale}
+              >
+                {churchLocales && churchLocales.map(locale => {
+                  return <Option key={locale._id} value={locale._id}>{locale.name}</Option>
+                })}
+              </Select>
+            </Col>
+          </Row>
+          <Row type="flex" justify="center">
+            <Col xs={24} sm={24} md={24} lg={12}>
+              <NavLink to={`/locale_church/${selectedLocale}/calendar`}>
+                <Button block type="primary" disabled={!selectedLocale}>
+                  Next<Icon type="right"/>
+                </Button>
+              </NavLink>
+            </Col>
+          </Row>
         </div>
-      </PageHeader>
-
+      </div>
     );
   }
 }

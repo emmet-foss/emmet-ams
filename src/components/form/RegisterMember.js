@@ -115,83 +115,73 @@ class RegisterMember extends Component {
     } = this.state;
 
     return (
-      <PageHeader>
-        <div className="wrap">
-          <div className="extraContent">
-            <Row type="flex" justify="center">
-              <Col xs={24} sm={24} md={24} lg={12}>
-                <Form {...formItemLayout}>
-                  <Form.Item label="Locale">
-                    <Select
-                        showSearch
-                        placeholder="Select a locale"
-                        dropdownMatchSelectWidth={false}
-                        onChange={value => this.setState({ selectedLocale: value })}
-                        value={selectedLocale}
-                      >
-                        {churchLocales && churchLocales.map(locale => {
-                          return <Option key={locale._id} value={locale._id}>{locale.name}</Option>
-                        })}
-                    </Select>
-                  </Form.Item>
-                </Form>
-              </Col>
-            </Row>
-            <Row type="flex" justify="center">
-              <Col xs={24} sm={24} md={24} lg={12}>
-                <Form {...formItemLayout} onSubmit={this.handleSubmit}>
-                  <Form.Item
-                    label="Name:"
-                  >
-                    <Input
-                      value={this.state.name}
-                      onChange={e => this.setState({ name: e.target.value })}
-                    />
-                  </Form.Item>
-                  <Form.Item
-                    label="Voice Designation:"
-                  >
-                    <Select
+      <div className="wrap">
+        <div className="extraContent">
+          <Row type="flex" justify="center">
+            <Col xs={24} sm={24} md={24} lg={12}>
+              <Form {...formItemLayout}>
+                <Form.Item label="Locale">
+                  <Select
+                      showSearch
+                      placeholder="Select a locale"
                       dropdownMatchSelectWidth={false}
-                      onChange={value => this.setState({ voiceDesignation: value })}
+                      onChange={value => this.setState({ selectedLocale: value })}
+                      value={selectedLocale}
                     >
-                      <Option value="s">Soprano</Option>
-                      <Option value="a">Alto</Option>
-                      <Option value="t">Tenor</Option>
-                      <Option value="b">Bass</Option>
-                    </Select>
-                  </Form.Item>
-                  <Form.Item
-                    label="Is Under Probationary:"
+                      {churchLocales && churchLocales.map(locale => {
+                        return <Option key={locale._id} value={locale._id}>{locale.name}</Option>
+                      })}
+                  </Select>
+                </Form.Item>
+              </Form>
+            </Col>
+          </Row>
+          <Row type="flex" justify="center">
+            <Col xs={24} sm={24} md={24} lg={12}>
+              <Form {...formItemLayout} onSubmit={this.handleSubmit}>
+                <Form.Item
+                  label="Name:"
+                >
+                  <Input
+                    value={this.state.name}
+                    onChange={e => this.setState({ name: e.target.value })}
+                  />
+                </Form.Item>
+                <Form.Item
+                  label="Voice Designation:"
+                >
+                  <Select
+                    dropdownMatchSelectWidth={false}
+                    onChange={value => this.setState({ voiceDesignation: value })}
                   >
-                    <Checkbox
-                      onChange={e => this.setState({ isUnderProbationary: e.target.checked })}
-                    />
-                  </Form.Item>
-                  <Form.Item
-                    label="Is Youth:"
-                  >
-                    <Checkbox
-                      onChange={e => this.setState({ isYouth: e.target.checked })}
-                    />
-                  </Form.Item>
-                  <Form.Item
-                    label="Is Worker:"
-                  >
-                    <Checkbox
-                      onChange={e => this.setState({ isWorker: e.target.checked })}
-                    />
-                  </Form.Item>
-                  <Form.Item {...tailFormItemLayout}>
-                    <Button type="primary" htmlType="submit">Register</Button>
-                    <p>{this.state.responseToPost}</p>
-                  </Form.Item>
-                </Form>
-              </Col>
-            </Row>
-          </div>
+                    <Option value="s">Soprano</Option>
+                    <Option value="a">Alto</Option>
+                    <Option value="t">Tenor</Option>
+                    <Option value="b">Bass</Option>
+                  </Select>
+                </Form.Item>
+                <Form.Item
+                  label="Other Statuses:"
+                >
+                  <Checkbox
+                    onChange={e => this.setState({ isUnderProbationary: e.target.checked })}
+                  >Under Probationary</Checkbox>
+                  <Checkbox
+                    onChange={e => this.setState({ isYouth: e.target.checked })}
+                  >Youth</Checkbox>
+                  <Checkbox
+                    onChange={e => this.setState({ isWorker: e.target.checked })}
+                  >Worker</Checkbox>
+                </Form.Item>
+                <Form.Item {...tailFormItemLayout}>
+                  <Button block type="primary" htmlType="submit">Register</Button>
+                  <p>{this.state.responseToPost}</p>
+                </Form.Item>
+              </Form>
+            </Col>
+          </Row>
         </div>
-      </PageHeader>
+      </div>
     );
   }
 }
