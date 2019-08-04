@@ -162,25 +162,17 @@ class RegisterMember extends Component {
                     </Select>
                   </Form.Item>
                   <Form.Item
-                    label="Is Under Probationary:"
+                    label="Other Statuses:"
                   >
                     <Checkbox
                       onChange={e => this.setState({ isUnderProbationary: e.target.checked })}
-                    />
-                  </Form.Item>
-                  <Form.Item
-                    label="Is Youth:"
-                  >
+                    >Is Under Probationary</Checkbox>
                     <Checkbox
                       onChange={e => this.setState({ isYouth: e.target.checked })}
-                    />
-                  </Form.Item>
-                  <Form.Item
-                    label="Is Worker:"
-                  >
+                    >Is Youth</Checkbox>
                     <Checkbox
                       onChange={e => this.setState({ isWorker: e.target.checked })}
-                    />
+                    >Is Worker</Checkbox>
                   </Form.Item>
                   <Form.Item {...tailFormItemLayout}>
                     <Button type="primary" htmlType="submit">Register</Button>

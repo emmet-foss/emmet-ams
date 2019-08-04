@@ -7,7 +7,7 @@ import ReactGA from 'react-ga';
 
 import { Home, ReportsHome } from './dashboard';
 import { AttendanceCalendar } from './list';
-import { AttendanceForm, AttendanceConfirm, RegisterMember, ReportForm } from './form';
+import { AttendanceForm, AttendanceConfirm, RegisterMember } from './form';
 import { MonthlyReport } from './reports';
 import * as Reports from './reports/weekly';
 
