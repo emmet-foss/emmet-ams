@@ -70,6 +70,7 @@ class AttendanceCalendar extends Component {
                   style={{ width: 240 }}
                   onChange={this.handleReportSelect}
                 >
+                  <Option value="prc">Practice</Option>
                   <Option value="pm">Prayer Meeting</Option>
                   <Option value="ws">Worship Service</Option>
                   <Option value="pbb">Thanksgiving</Option>
