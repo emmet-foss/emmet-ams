@@ -3,14 +3,8 @@ import PropTypes from "prop-types";
 import { withRouter } from "react-router";
 import * as qs from 'query-string';
 import {
-  Avatar,
-  Button,
-  Col,
-  Checkbox,
-  Icon,
-  List,
-  Row,
-  Statistic,
+  Avatar, Button, Col, Checkbox, Icon,
+  List, Row, Select, Statistic,
 } from 'antd';
 import ReactGA from 'react-ga';
 
@@ -18,6 +12,8 @@ import emmetAPI from '../../emmetAPI';
 
 import 'antd/dist/antd.css';
 import './CreateForm.css';
+
+const Option = Select.Option;
 
 class AttendanceForm extends Component {
   static propTypes = {
@@ -34,6 +30,7 @@ class AttendanceForm extends Component {
       name: '',
       location: '',
       responseToPost: '',
+      selectedGathering: '',
       collapsed: false,
       loading: false,
     };
@@ -70,20 +67,56 @@ class AttendanceForm extends Component {
     });
     const localeId = this.props.location.pathname.split('/')[2];
     const query = qs.parse(this.props.location.search);
-    const { attendanceDate, gathering } = query
+    const { attendanceDate, gatheringQuery } = query
+    const gathering = gatheringQuery || this.state.selectedGathering
     this.props.history.push(`/locale_church/${localeId}/confirm_attendance?attendanceDate=${attendanceDate}&gathering=${gathering}`)
   };
 
+  handleSelectGathering = (value) => {
+    ReactGA.event({
+      category: 'AttendanceCalendar',
+      action: 'select gathering type'
+    });
+    this.setState({ selectedGathering: value })
+  }
+
   render() {
-    const { members } = this.state;
+    const { members, selectedGathering } = this.state;
+    const query = qs.parse(this.props.location.search);
+    const { gathering } = query
+
     return (
       <div className="wrap">
         <div className="extraContent">
+        {(members && members.length === 0) ?
           <Row type="flex" justify="center">
             <Col xs={24} sm={24} md={24} lg={12}>
-              {(members && members.length === 0) ?
                 <Statistic value="No members available in this locale." />
-              :
+            </Col>
+          </Row>
+        :
+          <Row type="flex" justify="center">
+            <Col xs={24} sm={24} md={24} lg={12}>
+              <Statistic value="What type of gathering would you like to record an attendance?" />
+              {!gathering &&
+                <Select
+                    showSearch
+                    placeholder="Select a gathering"
+                    dropdownMatchSelectWidth={false}
+                    style={{ width: 240 }}
+                    onChange={this.handleSelectGathering}
+                  >
+                    <Option value="prc">Practice</Option>
+                    <Option value="pm">Prayer Meeting</Option>
+                    <Option value="ws">Worship Service</Option>
+                    <Option value="pbb">Thanksgiving</Option>
+                    <Option value="spbb">Special Thanksgiving</Option>
+                    <Option value="wbe">Worldwide Bible Exposition</Option>
+                    <Option value="bap">Baptism</Option>
+                    <Option value="doc">Indoctrination</Option>
+                </Select>
+              }
+              {(gathering || selectedGathering) &&
                 <div>
                   <Statistic value="Please select the members who were present:" />
                   <List
@@ -103,18 +136,19 @@ class AttendanceForm extends Component {
                       </List.Item>
                     )}
                   />
+                  <Button
+                    block
+                    type="primary"
+                    onClick={this.handleConfirmAttendance}
+                    disabled={this.props.checkedMembers.length <= 0}
+                  >
+                    Confirm<Icon type="right"/>
+                  </Button>
                 </div>
               }
-              <Button
-                block
-                type="primary"
-                onClick={this.handleConfirmAttendance}
-                disabled={this.props.checkedMembers.length <= 0}
-              >
-                Confirm<Icon type="right"/>
-              </Button>
             </Col>
           </Row>
+        }
         </div>
       </div>
     );
