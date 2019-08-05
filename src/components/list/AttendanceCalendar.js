@@ -29,7 +29,7 @@ class AttendanceCalendar extends Component {
       selectedGathering: '',
     };
     [
-      'handleReportSelect',
+      'handleSelectGathering',
     ].forEach((method) => this[method] = this[method].bind(this));
   }
 
@@ -48,7 +48,7 @@ class AttendanceCalendar extends Component {
     this.props.history.push(`/locale_church/${localeId}/attendance?attendanceDate=${attendanceDate.format("YYYY-MM-DD")}&gathering=${selectedGathering}`)
   };
 
-  handleReportSelect = (value) => {
+  handleSelectGathering = (value) => {
     ReactGA.event({
       category: 'AttendanceCalendar',
       action: 'select report type'
@@ -68,7 +68,7 @@ class AttendanceCalendar extends Component {
                   placeholder="Select a gathering"
                   dropdownMatchSelectWidth={false}
                   style={{ width: 240 }}
-                  onChange={this.handleReportSelect}
+                  onChange={this.handleSelectGathering}
                 >
                   <Option value="prc">Practice</Option>
                   <Option value="pm">Prayer Meeting</Option>

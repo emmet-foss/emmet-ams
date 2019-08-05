@@ -6,8 +6,8 @@ import { Col, Icon, Layout, Menu, Row } from 'antd';
 import ReactGA from 'react-ga';
 
 import { Home, ReportsHome } from './dashboard';
-import { AttendanceCalendar } from './list';
-import { AttendanceForm, AttendanceConfirm, RegisterMember } from './form';
+import { AttendanceCalendar, AttendanceList } from './list';
+import { AttendanceForm, AttendanceConfirm, RegisterMember, CalendarForm } from './form';
 import { MonthlyReport } from './reports';
 import * as Reports from './reports/weekly';
 
@@ -88,8 +88,9 @@ class AmsWrapper extends Component {
                   <Route exact path="/reports" component={withTracker(ReportsHome)} />
                   <Route exact path="/reports/:localeId/weekly" component={withTracker(Reports.WeeklyReport)} />
                   <Route exact path="/reports/:localeId/monthly" component={withTracker(MonthlyReport)} />
-                  <Route exact path="/calendar" component={withTracker(AttendanceCalendar)} />
                   <Route exact path="/locale_church/:localeId/calendar" component={withTracker(AttendanceCalendar)} />
+                  <Route exact path="/locale_church/:localeId/calendar_form" component={withTracker(CalendarForm)} />
+                  <Route exact path="/locale_church/:localeId/attendance_list" component={withTracker(AttendanceList)} />
                   <Route exact path="/locale_church/:localeId/attendance"
                     render={(props) =>
                       <AttendanceForm
@@ -132,7 +133,7 @@ class AmsWrapper extends Component {
                     key={`/locale_church/${localeId}/calendar`}
                     style={{ flexGrow: 1, display: 'flex', justifyContent: 'center' }}
                     disabled={!localeId}>
-                    <NavLink to={`/locale_church/${localeId}/calendar`}>
+                    <NavLink to={`/locale_church/${localeId}/calendar_form`}>
                       <Icon type="calendar" />
                     </NavLink>
                   </Menu.Item>

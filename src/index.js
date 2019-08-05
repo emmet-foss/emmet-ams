@@ -13,7 +13,6 @@ const routing = (
         <Switch>
             <Route exact path="/" component={AmsWrapper} />
             <Route path="/locale_church" component={AmsWrapper} />
-            <Route path="/calendar" component={AmsWrapper} />
             <Route path="/reports" component={AmsWrapper} />
             <Route path="/members" component={AmsWrapper} />
             <Route component={Notfound} />
