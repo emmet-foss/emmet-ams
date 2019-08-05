@@ -1,13 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from "prop-types";
 import { withRouter } from "react-router";
-import {
-  Calendar,
-  Col,
-  Row,
-  Select,
-  Statistic,
-} from 'antd';
+import { Calendar, Col, Row, Select } from 'antd';
 import Animate from 'rc-animate';
 import ReactGA from 'react-ga';
 
@@ -62,7 +56,7 @@ class AttendanceCalendar extends Component {
         <div className="extraContent">
           <Row type="flex" justify="center">
             <Col xs={24} sm={24} md={24} lg={12}>
-              <Statistic value="What type of gathering would you like to record an attendance?" />
+              <h3>What type of gathering would you like to record an attendance?</h3>
               <Select
                   showSearch
                   placeholder="Select a gathering"
@@ -88,7 +82,7 @@ class AttendanceCalendar extends Component {
           {this.state.selectedGathering ? 
             <Row key="1" type="flex" justify="center">
               <Col key="2" xs={24} sm={24} md={24} lg={12}>
-                <Statistic key="3" value="On which date?" />
+                <h3>On which date?</h3>
                   <Calendar
                     key="4" 
                     style={{ border: '1px solid #d9d9d9', borderRadius: 4 }}

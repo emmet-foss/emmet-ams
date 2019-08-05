@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
-import {
-  Button, Col, DatePicker, Form, Icon,
-  Select, Statistic, Row,
-} from 'antd';
+import { Button, Col, DatePicker, Form, Icon, Select, Row } from 'antd';
 import ReactGA from 'react-ga';
 
 import emmetAPI from '../../emmetAPI';
@@ -116,7 +113,7 @@ class ReportsHome extends Component {
         <div className="extraContent">
           <Row type="flex" justify="center">
             <Col xs={24} sm={24} md={24} lg={12}>
-              <Statistic value="Please select the report you would like to generate." />
+              <h2>Please select the report you would like to generate.</h2>
             </Col>
           </Row>
           <Row type="flex" justify="center">

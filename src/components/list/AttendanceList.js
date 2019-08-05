@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
-import {
-  Button, Col, Icon, Row, Spin, Statistic, Table,
-} from 'antd';
+import { Button, Col, Icon, Row, Spin, Table } from 'antd';
 import * as qs from 'query-string';
 import ReactGA from 'react-ga';
 
@@ -126,40 +124,53 @@ class AttendanceList extends Component {
               <Col xs={24} sm={24} md={24} lg={12}>
               {(result && result.length === 0) ?
                 <div>
-                  <h3>{`No ${localeInfo.name} attendance available for ${attendanceDate}.`}</h3>
-                  <h3>Would you like to submit an attendance?</h3>
-                  <span>
-                    <NavLink to={`/locale_church/${localeInfo._id}/attendance?attendanceDate=${attendanceDate}`}>
+                  <h3>{`Sorry, but there's no attendance available for ${localeInfo.name} on ${attendanceDate}.`}</h3>
+                  <div>
+                    <span>Would you like to submit an attendance?</span>
+                  </div>
+                  <div style={{ display: 'flex', justify: 'center' }} >
+                    <NavLink
+                      style={{ padding: 10 }}
+                      to={`/locale_church/${localeInfo._id}/attendance?attendanceDate=${attendanceDate}`}
+                    >
                       <Button type="primary" size="small">
                         <Icon type="check"/>Yes
                       </Button>
                     </NavLink>
-                    <NavLink to={`/locale_church/${localeInfo._id}/calendar_form`}>
+                    <NavLink
+                      style={{ padding: 10 }}
+                      to={`/locale_church/${localeInfo._id}/calendar_form`}
+                    >
                       <Button type="primary" size="small">
                         <Icon type="cross"/>No
                       </Button>
                     </NavLink>
-                  </span>
+                  </div>
                 </div>
               :
                 <div>
-                  <h3>Here's the attendance for</h3>
-                  <h3>{`${localeInfo.name}, ${attendanceDate}:`}</h3>
+                  <h3>Here's the attendance for {`${localeInfo.name} on ${attendanceDate}:`}</h3>
                   <Table pagination={false} columns={columns} dataSource={result} />
 
-                  <h3>Would you like to submit another?</h3>
-                  <span>
-                    <NavLink to={`/locale_church/${localeInfo._id}/attendance?attendanceDate=${attendanceDate}`}>
+                  <span>Would you like to submit another?</span>
+                  <div style={{ display: 'flex', justify: 'center' }} >
+                    <NavLink
+                      style={{ padding: 10 }}
+                      to={`/locale_church/${localeInfo._id}/attendance?attendanceDate=${attendanceDate}`}
+                    >
                       <Button type="primary" size="small">
                         <Icon type="check"/>Yes
                       </Button>
                     </NavLink>
-                    <NavLink to={`/locale_church/${localeInfo._id}/calendar_form`}>
+                    <NavLink
+                      style={{ padding: 10 }}
+                      to={`/locale_church/${localeInfo._id}/calendar_form`}
+                    >
                       <Button type="primary" size="small">
                         <Icon type="cross"/>No
                       </Button>
                     </NavLink>
-                  </span>
+                  </div>
                 </div>
               }
               </Col>

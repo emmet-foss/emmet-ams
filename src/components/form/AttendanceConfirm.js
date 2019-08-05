@@ -2,15 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from "prop-types";
 import { withRouter } from "react-router";
 import * as qs from 'query-string';
-import {
-  Avatar,
-  Button,
-  Col,
-  List,
-  message,
-  Row,
-  Statistic,
-} from 'antd';
+import { Avatar, Button, Col, List, message, Row } from 'antd';
 import ReactGA from 'react-ga';
 
 import emmetAPI from '../../emmetAPI';
@@ -82,10 +74,10 @@ class AttendanceForm extends Component {
           <Row type="flex" justify="center">
             <Col xs={24} sm={24} md={24} lg={12}>
               {(checkedMembers && checkedMembers.length === 0) ?
-                <Statistic value="No members available in this locale." />
+                <h2>No members available in this locale.</h2>
               :
                 <div>
-                  <Statistic value="Please confirm the following attendance:" />
+                  <h4>Please confirm the following attendance:</h4>
                   <List
                     itemLayout="horizontal"
                     bordered

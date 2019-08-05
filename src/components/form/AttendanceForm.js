@@ -2,10 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from "prop-types";
 import { withRouter } from "react-router";
 import * as qs from 'query-string';
-import {
-  Avatar, Button, Col, Checkbox, Icon,
-  List, Row, Select, Statistic,
-} from 'antd';
+import { Avatar, Button, Col, Checkbox, Icon, List, Row, Select } from 'antd';
 import ReactGA from 'react-ga';
 
 import emmetAPI from '../../emmetAPI';
@@ -91,13 +88,13 @@ class AttendanceForm extends Component {
         {(members && members.length === 0) ?
           <Row type="flex" justify="center">
             <Col xs={24} sm={24} md={24} lg={12}>
-                <Statistic value="No members available in this locale." />
+                <h2>No members available in this locale.</h2>
             </Col>
           </Row>
         :
           <Row type="flex" justify="center">
             <Col xs={24} sm={24} md={24} lg={12}>
-              <Statistic value="What type of gathering would you like to record an attendance?" />
+              <h3>What type of gathering would you like to record an attendance?</h3>
               {!gathering &&
                 <Select
                     showSearch
@@ -118,7 +115,7 @@ class AttendanceForm extends Component {
               }
               {(gathering || selectedGathering) &&
                 <div>
-                  <Statistic value="Please select the members who were present:" />
+                  <h4>Please select the members who were present:</h4>
                   <List
                     itemLayout="horizontal"
                     bordered
