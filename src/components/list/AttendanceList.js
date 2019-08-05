@@ -126,42 +126,40 @@ class AttendanceList extends Component {
               <Col xs={24} sm={24} md={24} lg={12}>
               {(result && result.length === 0) ?
                 <div>
-                  <Statistic value={`No ${localeInfo.name} attendance available for ${attendanceDate}.`} />
-                  <Statistic value={"Would you like to submit an attendance?"} suffix={
-                    <span>
-                      <NavLink to={`/locale_church/${localeInfo._id}/attendance?attendanceDate=${attendanceDate}`}>
-                        <Button type="primary" size="small">
-                          <Icon type="check"/>Yes
-                        </Button>
-                      </NavLink>
-                      <NavLink to={`/locale_church/${localeInfo._id}/calendar_form`}>
-                        <Button type="primary" size="small">
-                          <Icon type="cross"/>No
-                        </Button>
-                      </NavLink>
-                    </span>
-                  }/>
+                  <h3>{`No ${localeInfo.name} attendance available for ${attendanceDate}.`}</h3>
+                  <h3>Would you like to submit an attendance?</h3>
+                  <span>
+                    <NavLink to={`/locale_church/${localeInfo._id}/attendance?attendanceDate=${attendanceDate}`}>
+                      <Button type="primary" size="small">
+                        <Icon type="check"/>Yes
+                      </Button>
+                    </NavLink>
+                    <NavLink to={`/locale_church/${localeInfo._id}/calendar_form`}>
+                      <Button type="primary" size="small">
+                        <Icon type="cross"/>No
+                      </Button>
+                    </NavLink>
+                  </span>
                 </div>
               :
                 <div>
-                  <Statistic value={"Here's the attendance for"} />
-                  <Statistic value={`${localeInfo.name}, ${attendanceDate}:`} />
+                  <h3>Here's the attendance for</h3>
+                  <h3>{`${localeInfo.name}, ${attendanceDate}:`}</h3>
                   <Table pagination={false} columns={columns} dataSource={result} />
 
-                  <Statistic value={"Would you like to submit another?"} suffix={
-                    <span>
-                      <NavLink to={`/locale_church/${localeInfo._id}/attendance?attendanceDate=${attendanceDate}`}>
-                        <Button type="primary" size="small">
-                          <Icon type="check"/>Yes
-                        </Button>
-                      </NavLink>
-                      <NavLink to={`/locale_church/${localeInfo._id}/calendar_form`}>
-                        <Button type="primary" size="small">
-                          <Icon type="cross"/>No
-                        </Button>
-                      </NavLink>
-                    </span>
-                  } />
+                  <h3>Would you like to submit another?</h3>
+                  <span>
+                    <NavLink to={`/locale_church/${localeInfo._id}/attendance?attendanceDate=${attendanceDate}`}>
+                      <Button type="primary" size="small">
+                        <Icon type="check"/>Yes
+                      </Button>
+                    </NavLink>
+                    <NavLink to={`/locale_church/${localeInfo._id}/calendar_form`}>
+                      <Button type="primary" size="small">
+                        <Icon type="cross"/>No
+                      </Button>
+                    </NavLink>
+                  </span>
                 </div>
               }
               </Col>
