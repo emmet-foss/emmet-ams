@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-import {
-  Col, Row, Statistic, Table,
-} from 'antd';
+import { Col, Row, Table } from 'antd';
 import * as qs from 'query-string';
 import ReactGA from 'react-ga';
 
@@ -113,11 +111,11 @@ class MonthlyReport extends Component {
           <Row type="flex" justify="center">
             <Col xs={24} sm={24} md={24} lg={12}>
             {(result && result.length === 0) ?
-              <Statistic value={`No ${localeInfo.name} attendance available for ${period}.`} />
+              <h2>{`No ${localeInfo.name} attendance available for ${period}.`}</h2>
             :
               <div>
-                <Statistic value={"Here's the attendance for"} />
-                <Statistic value={`${localeInfo.name}, ${period}:`} />
+                <h3>{"Here's the attendance for"}</h3>
+                <h3>{`${localeInfo.name}, ${period}:`}</h3>
                 <Table pagination={false} columns={columns} dataSource={result} />
               </div>
             }

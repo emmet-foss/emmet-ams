@@ -2,16 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from "prop-types";
 import { withRouter } from "react-router";
 import * as qs from 'query-string';
-import {
-  Avatar,
-  Button,
-  Col,
-  Checkbox,
-  List,
-  message,
-  Row,
-  Statistic,
-} from 'antd';
+import { Avatar, Button, Col, Checkbox, List, message, Row } from 'antd';
 
 import emmetAPI from '../../emmetAPI';
 
@@ -108,10 +99,10 @@ class ReportForm extends Component {
           <Row type="flex" justify="center">
             <Col xs={24} sm={24} md={24} lg={12}>
               {(members && members.length === 0) ?
-                <Statistic value="No members available in this locale." />
+                <h2>No members available in this locale.</h2>
               :
                 <div>
-                  <Statistic value="Please select the members who were present:" />
+                  <span>Please select the members who were present:</span>
                   <List
                     itemLayout="horizontal"
                     bordered

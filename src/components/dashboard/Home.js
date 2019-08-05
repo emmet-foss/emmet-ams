@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 import {
   Button, Col, Icon,
-  Select, Statistic, Row,
+  Select, Row,
 } from 'antd';
 import ReactGA from 'react-ga';
 
@@ -77,7 +77,7 @@ class Home extends Component {
           </Row>
           <Row type="flex" justify="center">
             <Col xs={24} sm={24} md={24} lg={12}>
-              <Statistic value="From what locale are you?" />
+              <h2>From what locale are you?</h2>
               <Select
                 showSearch
                 style={{ width: '100%' }}
