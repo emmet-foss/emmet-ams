@@ -123,8 +123,7 @@ class MonthlyReport extends Component {
                 <h2>{`No ${localeInfo.name} attendance available for ${period}.`}</h2>
               :
                 <div>
-                  <h3>{"Here's the attendance for"}</h3>
-                  <h3>{`${localeInfo.name}, ${period}:`}</h3>
+                  <h3>{`Here's the attendance for ${localeInfo.name} on ${period}:`}</h3>
                   <Table pagination={false} columns={columns} dataSource={result} />
                 </div>
               }
