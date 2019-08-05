@@ -29,6 +29,7 @@ class CalendarForm extends Component {
         <div className="extraContent">
           <Row key="1" type="flex" justify="center">
             <Col key="2" xs={24} sm={24} md={24} lg={12}>
+              <h3>On which date would you like to submit an attendance?</h3>
               <Calendar
                 key="4" 
                 style={{ border: '1px solid #d9d9d9', borderRadius: 4 }}
