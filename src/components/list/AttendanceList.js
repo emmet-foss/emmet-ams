@@ -14,7 +14,13 @@ const columns = [
     title: 'Date',
     dataIndex: '_id',
     key: '_id',
-    render: _id => <span>{_id.attendanceDate.substr(0,10)}</span>,
+    render: _id =>
+      <NavLink
+        style={{ padding: 10 }}
+        to={`/locale_church/${_id.localeChurchId}/update_attendance?gathering=${_id.gathering}&attendanceDate=${_id.attendanceDate.substr(0,10)}`}
+      >
+        {_id.attendanceDate.substr(0,10)}
+      </NavLink>
   },
   {
     title: 'Event/Activity',
@@ -78,7 +84,7 @@ class AttendanceList extends Component {
     const localeId = this.props.location.pathname.split('/')[2];
     const query = qs.parse(this.props.location.search);
     this.setState({ loadingAttendance: true })
-    const response = await emmetAPI.getUrl(`/ams/attendance/by_date?localeId=${localeId}&attendanceDate=${query.attendanceDate}`)
+    const response = await emmetAPI.getUrl(`/ams/attendance/aggregate?localeId=${localeId}&attendanceDate=${query.attendanceDate}`)
     const body = await response.json();
     if (response.status !== 200) throw Error(body.message);
     return body;

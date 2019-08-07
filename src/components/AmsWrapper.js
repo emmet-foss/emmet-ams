@@ -7,7 +7,10 @@ import ReactGA from 'react-ga';
 
 import { Home, ReportsHome } from './dashboard';
 import { AttendanceCalendar, AttendanceList } from './list';
-import { AttendanceForm, AttendanceConfirm, RegisterMember, CalendarForm } from './form';
+import {
+  AttendanceForm, AttendanceConfirm, UpdateAttendanceForm,
+  RegisterMember, CalendarForm 
+} from './form';
 import { MonthlyReport } from './reports';
 import * as Reports from './reports/weekly';
 
@@ -91,6 +94,16 @@ class AmsWrapper extends Component {
                   <Route exact path="/locale_church/:localeId/calendar" component={withTracker(AttendanceCalendar)} />
                   <Route exact path="/locale_church/:localeId/calendar_form" component={withTracker(CalendarForm)} />
                   <Route exact path="/locale_church/:localeId/attendance_list" component={withTracker(AttendanceList)} />
+                  <Route exact path="/locale_church/:localeId/update_attendance"
+                    render={(props) =>
+                      <UpdateAttendanceForm
+                        {...props}
+                        setMember={this.setMember} 
+                        checkedMembers={this.state.checkedMembers}
+                        clearMembers={this.clearMembers}
+                      />
+                    }
+                  />
                   <Route exact path="/locale_church/:localeId/attendance"
                     render={(props) =>
                       <AttendanceForm
