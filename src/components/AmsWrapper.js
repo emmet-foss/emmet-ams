@@ -64,7 +64,7 @@ class AmsWrapper extends Component {
       <Layout style={{ minHeight: '100vh' }}>
         <Layout>
           <Header style={{ position: 'fixed', zIndex: 1, width: '100%' }}>
-            <Row type="flex" justify="flex-end">
+            <Row type="flex" justify="end">
               <Col xs={24} sm={24} md={24} lg={12}>
                 <Menu
                   theme="dark"

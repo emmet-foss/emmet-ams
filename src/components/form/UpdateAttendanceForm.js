@@ -28,9 +28,25 @@ class UpdateAttendanceForm extends Component {
     };
 	}
 
+  setMembers = () => {
+    this.state.membersPresent.forEach(member => {
+      const e = {
+        target: {
+          memberId: member._id,
+          memberName: member.name,
+          checked: true,
+        }
+      };
+      this.props.setMember(e);
+    });
+  }
+
   componentDidMount() {
     this.getAttendance()
-      .then(res => this.setState({ membersPresent: res.members, loadingMembersPresent: false }))
+      .then(res => {
+        this.setState({ membersPresent: res.members, loadingMembersPresent: false });
+        this.setMembers();
+      })
       .catch(err => console.log(err));
     this.getMembers()
       .then(res => this.setState({ members: res.members, loadingMembers: false }))
@@ -42,7 +58,10 @@ class UpdateAttendanceForm extends Component {
   componentWillReceiveProps(nextProps) {
     if (nextProps.location !== this.props.location) {
       this.getAttendance()
-        .then(res => this.setState({ membersPresent: res.members, loadingMembersPresent: false }))
+        .then(res => {
+          this.setState({ membersPresent: res.members, loadingMembersPresent: false });
+          this.setMembers();
+        })
         .catch(err => console.log(err));
       this.getMembers()
         .then(res => this.setState({ members: res.members, loadingMembers: false }))
@@ -55,7 +74,7 @@ class UpdateAttendanceForm extends Component {
 
     const localeId = this.props.location.pathname.split('/')[2];
     const query = qs.parse(this.props.location.search);
-    const { attendanceDate, gathering } = query
+    const { attendanceDate, gathering } = query;
     const response = await emmetAPI.getUrl(`/ams/attendance?localeId=${localeId}&attendanceDate=${attendanceDate}&gathering=${gathering}`);
     const body = await response.json();
     if (response.status !== 200) throw Error(body.message);
@@ -79,26 +98,9 @@ class UpdateAttendanceForm extends Component {
     });
     const localeId = this.props.location.pathname.split('/')[2];
     const query = qs.parse(this.props.location.search);
-    const { attendanceDate, gatheringQuery } = query
-    const gathering = gatheringQuery || this.state.selectedGathering
+    const { attendanceDate, gathering } = query
     this.props.history.push(`/locale_church/${localeId}/confirm_attendance?attendanceDate=${attendanceDate}&gathering=${gathering}`)
   };
-
-  addMember = (e) => {
-    console.log('e', e)
-    const { memberId, memberName, checked } = e.target;
-    const { membersPresent } = this.state;
-
-    if (checked) {
-      membersPresent.push({ memberId, memberName });
-      this.setState({ membersPresent });
-    } else {
-      var filtered = membersPresent.filter(function(value, index, arr){
-        return value.memberId !== memberId;
-      });
-      this.setState({ membersPresents: filtered });
-    }
-  }
   
   render() {
     const { members, loadingMembers, loadingMembersPresent, membersPresent } = this.state;
@@ -148,7 +150,7 @@ class UpdateAttendanceForm extends Component {
                       <Checkbox
                         memberId={item._id}
                         memberName={item.name}
-                        onChange={this.addMember}
+                        onChange={this.props.setMember}
                         defaultChecked={memberIds.indexOf(item._id) >= 0}
                       />
                     </List.Item>

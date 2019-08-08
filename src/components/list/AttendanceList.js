@@ -24,9 +24,9 @@ const columns = [
   },
   {
     title: 'Event/Activity',
-    dataIndex: '_id',
-    key: '_id',
-    render: _id => <span>{_id.gathering}</span>,
+    dataIndex: '_id.gathering',
+    key: '_id.gathering',
+    render: gathering => <span>{gathering}</span>,
   },
   {
     title: 'No. of Attendees',
@@ -116,6 +116,14 @@ class AttendanceList extends Component {
     const { result, localeInfo, loadingLocaleInfo, loadingAttendance } = this.state;
     const loading = (loadingLocaleInfo || loadingAttendance );
 
+    let modResult = [];
+    if (result.length > 0) {
+      let i = 0;
+      result.forEach(item => {
+        modResult.push({ ...item, key: i++ });
+      });
+    }
+
     return (
       <div className="wrap">
         <div className="extraContent">
@@ -156,7 +164,7 @@ class AttendanceList extends Component {
               :
                 <div>
                   <h3>Here's the attendance for {`${localeInfo.name} on ${attendanceDate}:`}</h3>
-                  <Table pagination={false} columns={columns} dataSource={result} />
+                  <Table pagination={false} columns={columns} dataSource={modResult} />
 
                   <span>Would you like to submit another?</span>
                   <div style={{ display: 'flex', justify: 'center' }} >
