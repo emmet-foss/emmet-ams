@@ -14,7 +14,8 @@ class UpdateAttendanceForm extends Component {
   static propTypes = {
     match: PropTypes.object.isRequired,
     location: PropTypes.object.isRequired,
-    history: PropTypes.object.isRequired
+    history: PropTypes.object.isRequired,
+    mode: PropTypes.string,
   };
 
   constructor(props) {
@@ -104,6 +105,7 @@ class UpdateAttendanceForm extends Component {
   
   render() {
     const { members, loadingMembers, loadingMembersPresent, membersPresent } = this.state;
+    const { mode } = this.props;
     const memberIds = membersPresent.map((member) => {
       return member._id;
     })
@@ -147,22 +149,26 @@ class UpdateAttendanceForm extends Component {
                         avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />}
                         title={item.name}
                       />
-                      <Checkbox
-                        memberId={item._id}
-                        memberName={item.name}
-                        onChange={this.props.setMember}
-                        defaultChecked={memberIds.indexOf(item._id) >= 0}
-                      />
+                      {mode !== 'read-only' &&
+                        <Checkbox
+                          memberId={item._id}
+                          memberName={item.name}
+                          onChange={this.props.setMember}
+                          defaultChecked={memberIds.indexOf(item._id) >= 0}
+                        />
+                      }
                     </List.Item>
                   )}
                 />
-                <Button
-                  block
-                  type="primary"
-                  onClick={this.handleUpdateAttendance}
-                >
-                  Confirm<Icon type="right"/>
-                </Button>
+                {mode !== 'read-only' &&
+                  <Button
+                    block
+                    type="primary"
+                    onClick={this.handleUpdateAttendance}
+                  >
+                    Confirm<Icon type="right"/>
+                  </Button>
+                }
               </div>
             </Col>
           </Row>
@@ -172,5 +178,10 @@ class UpdateAttendanceForm extends Component {
     );
   }
 }
+
+// Set default props
+UpdateAttendanceForm.defaultProps = {
+  mode: ''
+};
 
 export default withRouter(UpdateAttendanceForm);
