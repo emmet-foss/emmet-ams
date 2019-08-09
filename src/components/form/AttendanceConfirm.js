@@ -74,7 +74,7 @@ class AttendanceForm extends Component {
           <Row type="flex" justify="center">
             <Col xs={24} sm={24} md={24} lg={12}>
               {(checkedMembers && checkedMembers.length === 0) ?
-                <h2>No members available in this locale.</h2>
+                <h3>No members were selected. Click submit to remove the attendance recorded on this date.</h3>
               :
                 <div>
                   <h4>Please confirm the following attendance:</h4>

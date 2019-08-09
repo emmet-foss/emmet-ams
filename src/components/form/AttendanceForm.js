@@ -24,9 +24,6 @@ class AttendanceForm extends Component {
 		this.state = {
       members: [],
       checkedMembers: [],
-      name: '',
-      location: '',
-      responseToPost: '',
       selectedGathering: '',
       collapsed: false,
       loading: false,
