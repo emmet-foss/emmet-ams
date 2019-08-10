@@ -5,8 +5,8 @@ import { withRouter } from "react-router";
 import { Col, Icon, Layout, Menu, Row } from 'antd';
 import ReactGA from 'react-ga';
 
-import { Home, ReportsHome } from './dashboard';
-import { AttendanceCalendar, AttendanceList } from './list';
+import { Home, ReportsHome, MembersHome } from './dashboard';
+import { AttendanceCalendar, AttendanceList, MembersList } from './list';
 import {
   AttendanceForm, AttendanceConfirm, UpdateAttendanceForm,
   RegisterMember, CalendarForm 
@@ -134,7 +134,9 @@ class AmsWrapper extends Component {
                       />
                     }
                   />
-                  <Route exact path="/members" component={withTracker(RegisterMember)} />
+                  <Route exact path="/members" component={withTracker(MembersHome)} />
+                  <Route exact path="/locale_church/:localeId/members" component={withTracker(MembersList)} />
+                  <Route exact path="/locale_church/:localeId/members/new" component={withTracker(RegisterMember)} />
                 </div>
               </Col>
             </Row>
