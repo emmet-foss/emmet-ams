@@ -5,6 +5,7 @@ import * as qs from 'query-string';
 import ReactGA from 'react-ga';
 
 import emmetAPI from '../../emmetAPI';
+import * as constants from '../../helpers/constants';
 
 import 'antd/dist/antd.css';
 import './List.css';
@@ -26,12 +27,19 @@ const columns = [
     title: 'Event/Activity',
     dataIndex: '_id.gathering',
     key: '_id.gathering',
-    render: gathering => <span>{gathering}</span>,
+    render: gathering => <span>{constants.gatherings[gathering]}</span>,
   },
   {
     title: 'No. of Attendees',
-    dataIndex: 'count',
-    key: 'count',
+    dataIndex: '_id',
+    key: '_id.count',
+    render: _id =>
+      <NavLink
+        style={{ padding: 10 }}
+        to={`/locale_church/${_id.localeChurchId}/update_attendance?gathering=${_id.gathering}&attendanceDate=${_id.attendanceDate.substr(0,10)}`}
+      >
+        {_id.count}
+      </NavLink>
   },
 ];
 

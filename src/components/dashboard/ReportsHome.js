@@ -85,7 +85,6 @@ class ReportsHome extends Component {
 
   onChange = async (date, dateString) => {
     this.setState({ period: dateString})
-    console.log(date, dateString);
   }
 
   render() {
