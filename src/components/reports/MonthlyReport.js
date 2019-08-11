@@ -23,7 +23,7 @@ const columns = [
       </NavLink>
   },
   {
-    title: 'Event/Activity',
+    title: 'Activity',
     dataIndex: '_id.gathering',
     key: '_id.gathering',
     render: gathering => <span>{constants.gatherings[gathering]}</span>,
