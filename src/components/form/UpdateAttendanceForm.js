@@ -6,6 +6,7 @@ import { Avatar, Button, Col, Checkbox, Icon, List, Row, Spin } from 'antd';
 import ReactGA from 'react-ga';
 
 import emmetAPI from '../../emmetAPI';
+import * as constants from '../../helpers/constants';
 
 import 'antd/dist/antd.css';
 import './CreateForm.css';
@@ -24,8 +25,10 @@ class UpdateAttendanceForm extends Component {
       members: [],
       membersPresent: [],
       checkedMembers: [],
+      localeInfo: {},
       loadingMembersPresent: false,
       loadingMembers: false,
+      loadingLocaleInfo: false,
     };
 	}
 
@@ -49,6 +52,13 @@ class UpdateAttendanceForm extends Component {
         this.setMembers();
       })
       .catch(err => console.log(err));
+
+    this.getLocaleInfo()
+      .then(res => {
+        this.setState({ localeInfo: res.locale, loadingLocaleInfo: false })
+      })
+      .catch(err => console.log(err));  
+
     this.getMembers()
       .then(res => this.setState({ members: res.members, loadingMembers: false }))
       .catch(err => console.log(err));
@@ -92,6 +102,15 @@ class UpdateAttendanceForm extends Component {
     return body;
   };
 
+  getLocaleInfo = async () => {
+    const localeId = this.props.location.pathname.split('/')[2];
+    this.setState({ loadingLocaleInfo: true });
+    const response = await emmetAPI.getUrl(`/ams/locale_churches/${localeId}`)
+    const body = await response.json();
+    if (response.status !== 200) throw Error(body.message);
+    return body;
+  };
+
   handleUpdateAttendance = async () => {
     ReactGA.event({
       category: 'Attendance',
@@ -104,12 +123,16 @@ class UpdateAttendanceForm extends Component {
   };
   
   render() {
-    const { members, loadingMembers, loadingMembersPresent, membersPresent } = this.state;
+    const { members, localeInfo, loadingLocaleInfo, loadingMembers, loadingMembersPresent, membersPresent } = this.state;
     const { mode } = this.props;
     const memberIds = membersPresent.map((member) => {
       return member._id;
     })
-    if (loadingMembers || loadingMembersPresent) {
+    const query = qs.parse(this.props.location.search);
+    const { attendanceDate, gathering } = query
+
+    const loading = (loadingLocaleInfo || loadingMembers || loadingMembersPresent);
+    if (loading) {
       return (
         <div className="wrap">
           <div className="extraContent">
@@ -135,7 +158,7 @@ class UpdateAttendanceForm extends Component {
           <Row type="flex" justify="center">
             <Col xs={24} sm={24} md={24} lg={12}>
               <div>
-                <h4>These were the members who were present:</h4>
+                <h4>{`These were the members of ${localeInfo.name} who were present on ${attendanceDate}, ${constants.gatherings[gathering]}:`}</h4>
                 <List
                   itemLayout="horizontal"
                   bordered

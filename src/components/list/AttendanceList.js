@@ -17,25 +17,23 @@ const columns = [
     key: '_id',
     render: _id =>
       <NavLink
-        style={{ padding: 10 }}
         to={`/locale_church/${_id.localeChurchId}/update_attendance?gathering=${_id.gathering}&attendanceDate=${_id.attendanceDate.substr(0,10)}`}
       >
         {_id.attendanceDate.substr(0,10)}
       </NavLink>
   },
   {
-    title: 'Event/Activity',
+    title: 'Activity',
     dataIndex: '_id.gathering',
     key: '_id.gathering',
     render: gathering => <span>{constants.gatherings[gathering]}</span>,
   },
   {
-    title: 'No. of Attendees',
+    title: 'Count',
     dataIndex: '_id',
     key: '_id.count',
     render: _id =>
       <NavLink
-        style={{ padding: 10 }}
         to={`/locale_church/${_id.localeChurchId}/update_attendance?gathering=${_id.gathering}&attendanceDate=${_id.attendanceDate.substr(0,10)}`}
       >
         {_id.count}
