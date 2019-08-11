@@ -158,7 +158,7 @@ class UpdateAttendanceForm extends Component {
           <Row type="flex" justify="center">
             <Col xs={24} sm={24} md={24} lg={12}>
               <div>
-                <h4>{`These were the members of ${localeInfo.name} who were present on ${attendanceDate}, ${constants.gatherings[gathering]}:`}</h4>
+                <h4>{`These were the members of ${localeInfo.name} who were present during ${constants.gatherings[gathering]} on ${attendanceDate}:`}</h4>
                 <List
                   itemLayout="horizontal"
                   bordered
