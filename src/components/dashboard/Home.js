@@ -72,7 +72,7 @@ class Home extends Component {
         <div className="extraContent">
           <Row type="flex" justify="center">
             <Col xs={24} sm={24} md={24} lg={12}>
-              <div>Welcome to Emmet AMS!</div>
+              <div>Welcome to Choir AMS!</div>
             </Col>
           </Row>
           <Row type="flex" justify="center">

@@ -30,7 +30,7 @@ class MembersHome extends Component {
         console.log('falseRedirect', falseRedirect)
         if (storedLocaleId && !falseRedirect) {
           this.setState({ selectedLocale: storedLocaleId })
-          this.props.history.push(`/locale_church/${storedLocaleId}/members`);
+          //this.props.history.push(`/locale_church/${storedLocaleId}/members`);
         }
       })
       .catch(err => console.log(err));  
@@ -77,12 +77,7 @@ class MembersHome extends Component {
         <div className="extraContent">
           <Row type="flex" justify="center">
             <Col xs={24} sm={24} md={24} lg={12}>
-              <div>Welcome to Emmet AMS!</div>
-            </Col>
-          </Row>
-          <Row type="flex" justify="center">
-            <Col xs={24} sm={24} md={24} lg={12}>
-              <h2>From which locale would like to see the members list?</h2>
+              <h3>From which locale would like to see its registered members?</h3>
               <Select
                 showSearch
                 style={{ width: '100%' }}
