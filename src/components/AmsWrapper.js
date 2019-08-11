@@ -65,9 +65,10 @@ class AmsWrapper extends Component {
       <Layout style={{ minHeight: '100vh' }}>
         <Layout>
           <Header style={{ position: 'fixed', zIndex: 1, width: '100%' }}>
-            <Row type="flex" justify="space-between" align="middle">
+            <Row type="flex" justify="center" align="middle">
               <Col
                 xs={8} sm={8} md={8} lg={8}
+                style={{display: 'none'}}
               >
                 <Menu
                   theme="dark"
@@ -75,7 +76,7 @@ class AmsWrapper extends Component {
                 >
                   <Menu.Item
                     key="/"
-                    style={{display: 'flex', justifyContent: 'flex-start'}}
+                    style={{ display: 'flex', flexGrow: 1, justifyContent: 'center' }}
                   >
                     <NavLink to="/">
                       <Icon type="left" /> Back
@@ -85,7 +86,6 @@ class AmsWrapper extends Component {
               </Col>
               <Col
                 xs={8} sm={8} md={8} lg={8}
-                offset={8}
               >
                 <Menu
                   theme="dark"
@@ -93,7 +93,25 @@ class AmsWrapper extends Component {
                 >
                   <Menu.Item
                     key="/"
-                    style={{display: 'flex', justifyContent: 'flex-end'}}
+                    style={{ display: 'flex', flexGrow: 1, justifyContent: 'center' }}
+                  >
+                    <NavLink to="/">
+                      <Icon type="home" />
+                    </NavLink>
+                  </Menu.Item>
+                </Menu>
+              </Col>
+              <Col
+                xs={8} sm={8} md={8} lg={8}
+                style={{display: 'none'}}
+              >
+                <Menu
+                  theme="dark"
+                  mode="horizontal"
+                >
+                  <Menu.Item
+                    key="/"
+                    style={{ display: 'flex', flexGrow: 1, justifyContent: 'center' }}
                   >
                     <NavLink to="/">
                       Submit <Icon type="play-circle" />
