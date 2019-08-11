@@ -65,19 +65,38 @@ class AmsWrapper extends Component {
       <Layout style={{ minHeight: '100vh' }}>
         <Layout>
           <Header style={{ position: 'fixed', zIndex: 1, width: '100%' }}>
-            <Row type="flex" justify="end">
-              <Col xs={24} sm={24} md={24} lg={12}>
+            <Row type="flex" justify="space-between" align="middle">
+              <Col
+                xs={8} sm={8} md={8} lg={8}
+              >
                 <Menu
                   theme="dark"
                   mode="horizontal"
-                  style={{ lineHeight: '64px', display: 'flex', justifyContent: 'flex-end' }}
                 >
                   <Menu.Item
                     key="/"
-                    style={{ flexGrow: 1, display: 'flex', justifyContent: 'center' }}
+                    style={{display: 'flex', justifyContent: 'flex-start'}}
                   >
                     <NavLink to="/">
-                      <Icon type="home" />
+                      <Icon type="left" /> Back
+                    </NavLink>
+                  </Menu.Item>
+                </Menu>
+              </Col>
+              <Col
+                xs={8} sm={8} md={8} lg={8}
+                offset={8}
+              >
+                <Menu
+                  theme="dark"
+                  mode="horizontal"
+                >
+                  <Menu.Item
+                    key="/"
+                    style={{display: 'flex', justifyContent: 'flex-end'}}
+                  >
+                    <NavLink to="/">
+                      Submit <Icon type="play-circle" />
                     </NavLink>
                   </Menu.Item>
                 </Menu>
