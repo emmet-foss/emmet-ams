@@ -20,12 +20,12 @@ class Home extends Component {
   };
 
   componentDidMount() {
-    this.getChurchLocales()
+    this.getGroups()
       .then(res => {
-        this.setState({ churchLocales: res.locales })
-        let storedLocaleId = localStorage.getItem('localeId');
-        if (storedLocaleId) {
-          this.setState({ selectedLocale: storedLocaleId })
+        this.setState({ churchGroups: res.churchGroups })
+        let storedGroupId = localStorage.getItem('churchGroupId');
+        if (storedGroupId) {
+          this.setState({ selectedGroup: storedGroupId })
         }
       })
       .catch(err => console.log(err));  
@@ -33,40 +33,35 @@ class Home extends Component {
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.location !== this.props.location) {
-      this.getChurchLocales()
+      this.getGroups()
       .then(res => {
-        this.setState({ churchLocales: res.locales })
-        let storedLocaleId = localStorage.getItem('localeId');
-        if (storedLocaleId) {
-          this.setState({ selectedLocale: storedLocaleId })
+        this.setState({ churchGroups: res.locales })
+        let storedGroupId = localStorage.getItem('churchGroupId');
+        if (storedGroupId) {
+          this.setState({ selectedGroup: storedGroupId })
         }
       })
       .catch(err => console.log(err));
     }
   }
 
-  getChurchLocales = async () => {
-    const response = await emmetAPI.getUrl('/ams/locale_churches')
+  getGroups = async () => {
+    const response = await emmetAPI.getUrl('/ams/church_groups?ministryName=music%20ministry')
     const body = await response.json();
     if (response.status !== 200) throw Error(body.message);
     return body;
   };
 
-  handleLocaleSelect = async (localeValue) => {
+  handleGroupSelect = async (value) => {
     ReactGA.event({
       category: 'Home',
-      action: 'locale select'
+      action: 'group select'
     });
-    this.setState({
-      selectedLocale: localeValue
-    });
+    this.setState({ selectedGroup: value });
   };
 
   render() {
-    const {
-      churchLocales,
-      selectedLocale,
-    } = this.state;
+    const { churchGroups, selectedGroup } = this.state;
     return (
       <div className="wrap">
         <div className="extraContent">
@@ -77,25 +72,25 @@ class Home extends Component {
           </Row>
           <Row type="flex" justify="center">
             <Col xs={24} sm={24} md={24} lg={12}>
-              <h2>From what locale are you?</h2>
+              <h3>From what locale choir are you?</h3>
               <Select
                 showSearch
                 style={{ width: '100%' }}
-                placeholder="Select a locale"
+                placeholder="Please select a locale choir"
                 dropdownMatchSelectWidth={false}
-                onChange={this.handleLocaleSelect}
-                value={selectedLocale}
+                onChange={this.handleGroupSelect}
+                value={selectedGroup}
               >
-                {churchLocales && churchLocales.map(locale => {
-                  return <Option key={locale._id} value={locale._id}>{locale.name}</Option>
+                {churchGroups && churchGroups.map(group => {
+                  return <Option key={group._id} value={group._id}>{group.name}</Option>
                 })}
               </Select>
             </Col>
           </Row>
           <Row type="flex" justify="center">
             <Col xs={24} sm={24} md={24} lg={12}>
-              <NavLink to={`/locale_church/${selectedLocale}/calendar_form`}>
-                <Button block type="primary" disabled={!selectedLocale}>
+              <NavLink to={`/church_groups/${selectedGroup}/calendar_form`}>
+                <Button block type="primary" disabled={!selectedGroup}>
                   Next<Icon type="right"/>
                 </Button>
               </NavLink>

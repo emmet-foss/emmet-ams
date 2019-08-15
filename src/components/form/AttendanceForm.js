@@ -47,8 +47,8 @@ class AttendanceForm extends Component {
   }
 
   getMembers = async () => {
-    const localeId = this.props.location.pathname.split('/')[2];
-    const response = await emmetAPI.getUrl(`/ams/locale_churches/${localeId}/members`);
+    const groupId = this.props.location.pathname.split('/')[2];
+    const response = await emmetAPI.getUrl(`/ams/church_groups/${groupId}/members`);
     const body = await response.json();
     if (response.status !== 200) throw Error(body.message);
     return body;
@@ -59,11 +59,11 @@ class AttendanceForm extends Component {
       category: 'Attendance',
       action: 'confirm attendance'
     });
-    const localeId = this.props.location.pathname.split('/')[2];
+    const groupId = this.props.location.pathname.split('/')[2];
     const query = qs.parse(this.props.location.search);
     const { attendanceDate, gatheringQuery } = query
     const gathering = gatheringQuery || this.state.selectedGathering
-    this.props.history.push(`/locale_church/${localeId}/confirm_attendance?attendanceDate=${attendanceDate}&gathering=${gathering}`)
+    this.props.history.push(`/church_groups/${groupId}/confirm_attendance?attendanceDate=${attendanceDate}&gathering=${gathering}`)
   };
 
   handleSelectGathering = (value) => {

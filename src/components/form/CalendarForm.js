@@ -19,8 +19,8 @@ class CalendarForm extends Component {
       category: 'attendance calendar',
       action: 'go to attendance date'
     });
-    const localeId = this.props.location.pathname.split('/')[2];
-    this.props.history.push(`/locale_church/${localeId}/attendance_list?attendanceDate=${attendanceDate.format("YYYY-MM-DD")}`)
+    const groupId = this.props.location.pathname.split('/')[2];
+    this.props.history.push(`/church_groups/${groupId}/attendance_list?attendanceDate=${attendanceDate.format("YYYY-MM-DD")}`)
   };
 
   render() {

@@ -14,18 +14,18 @@ const { MonthPicker, RangePicker, WeekPicker } = DatePicker;
 class ReportsHome extends Component {
   state = {
     members: [],
-    selectedLocale: '',
+    selectedGroup: '',
     selectedReport: 'monthly',
     period: '',
   };
 
   componentDidMount() {
-    this.getChurchLocales()
+    this.getGroups()
       .then(res => {
-        this.setState({ churchLocales: res.locales })
-        let storedLocaleId = localStorage.getItem('localeId');
-        if (storedLocaleId) {
-          this.setState({ selectedLocale: storedLocaleId })
+        this.setState({ churchGroups: res.locales })
+        let storedId = localStorage.getItem('churchGroupId');
+        if (storedId) {
+          this.setState({ selectedGroup: storedId })
         }
       })
       .catch(err => console.log(err));  
@@ -33,20 +33,20 @@ class ReportsHome extends Component {
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.location !== this.props.location) {
-      this.getChurchLocales()
+      this.getGroups()
       .then(res => {
-        this.setState({ churchLocales: res.locales })
-        let storedLocaleId = localStorage.getItem('localeId');
-        if (storedLocaleId) {
-          this.setState({ selectedLocale: storedLocaleId })
+        this.setState({ churchGroups: res.churchGroups })
+        let storedId = localStorage.getItem('localeId');
+        if (storedId) {
+          this.setState({ selectedGroup: storedId })
         }
       })
       .catch(err => console.log(err));
     }
   }
 
-  getChurchLocales = async () => {
-    const response = await emmetAPI.getUrl('/ams/locale_churches')
+  getGroups = async () => {
+    const response = await emmetAPI.getUrl('/ams/church_groups')
     const body = await response.json();
     if (response.status !== 200) throw Error(body.message);
     return body;
@@ -65,7 +65,7 @@ class ReportsHome extends Component {
       action: 'locale select'
     });
     this.setState({
-      selectedLocale: localeValue
+      selectedGroup: localeValue
     });
 
     this.getMembers(localeValue)
@@ -101,8 +101,8 @@ class ReportsHome extends Component {
     };
 
     const {
-      churchLocales,
-      selectedLocale,
+      churchGroups,
+      selectedGroup,
       selectedReport,
       period,
     } = this.state;
@@ -124,9 +124,9 @@ class ReportsHome extends Component {
                       placeholder="Select a locale"
                       dropdownMatchSelectWidth={false}
                       onChange={this.handleLocaleSelect}
-                      value={selectedLocale}
+                      value={selectedGroup}
                     >
-                      {churchLocales && churchLocales.map(locale => {
+                      {churchGroups && churchGroups.map(locale => {
                         return <Option key={locale._id} value={locale._id}>{locale.name}</Option>
                       })}
                   </Select>
@@ -172,7 +172,7 @@ class ReportsHome extends Component {
           }
           <Row type="flex" justify="center">
             <Col xs={24} sm={24} md={24} lg={12}>
-              <NavLink to={`/reports/${selectedLocale}/${selectedReport}?period=${period}`}>
+              <NavLink to={`/reports/${selectedGroup}/${selectedReport}?period=${period}`}>
                 <Button
                   block
                   type="primary"

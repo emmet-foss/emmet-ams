@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 import { Button, Col, Icon, Row, Spin, Table } from 'antd';
 import * as qs from 'query-string';
-import ReactGA from 'react-ga';
 
 import emmetAPI from '../../emmetAPI';
 import * as constants from '../../helpers/constants';
@@ -17,7 +16,7 @@ const columns = [
     key: '_id',
     render: _id =>
       <NavLink
-        to={`/locale_church/${_id.localeChurchId}/update_attendance?gathering=${_id.gathering}&attendanceDate=${_id.attendanceDate.substr(0,10)}`}
+        to={`/church_groups/${_id.churchGroupId}/update_attendance?gathering=${_id.gathering}&attendanceDate=${_id.attendanceDate.substr(0,10)}`}
       >
         {_id.attendanceDate.substr(0,10)}
       </NavLink>
@@ -34,7 +33,7 @@ const columns = [
     key: '_id.count',
     render: _id =>
       <NavLink
-        to={`/locale_church/${_id.localeChurchId}/update_attendance?gathering=${_id.gathering}&attendanceDate=${_id.attendanceDate.substr(0,10)}`}
+        to={`/church_groups/${_id.churchGroupId}/update_attendance?gathering=${_id.gathering}&attendanceDate=${_id.attendanceDate.substr(0,10)}`}
       >
         {_id.count}
       </NavLink>
@@ -45,9 +44,9 @@ class AttendanceList extends Component {
   state = {
     result: [],
     period: "",
-    localeInfo: "",
+    churchGroupInfo: "",
     loadingAttendance: false,
-    loadingLocaleInfo: false,
+    loadingGroupInfo: false,
   };
 
   componentDidMount() {
@@ -57,9 +56,9 @@ class AttendanceList extends Component {
       })
       .catch(err => console.log(err));  
 
-    this.getLocaleInfo()
+    this.getChurchGroupInfo()
       .then(res => {
-        this.setState({ localeInfo: res.locale, loadingLocaleInfo: false })
+        this.setState({ churchGroupInfo: res.data, loadingGroupInfo: false })
       })
       .catch(err => console.log(err));  
 
@@ -75,9 +74,9 @@ class AttendanceList extends Component {
         })
         .catch(err => console.log(err));
 
-      this.getLocaleInfo()
+      this.getChurchGroupInfo()
         .then(res => {
-          this.setState({ localeInfo: res.locale, loadingLocaleInfo: false })
+          this.setState({ churchGroupInfo: res.data, loadingGroupInfo: false })
         })
         .catch(err => console.log(err));  
   
@@ -87,40 +86,29 @@ class AttendanceList extends Component {
   }
 
   getMonthlyAttendance = async () => {
-    const localeId = this.props.location.pathname.split('/')[2];
+    const churchGroupId = this.props.location.pathname.split('/')[2];
     const query = qs.parse(this.props.location.search);
     this.setState({ loadingAttendance: true })
-    const response = await emmetAPI.getUrl(`/ams/attendance/aggregate?localeId=${localeId}&attendanceDate=${query.attendanceDate}`)
+    const response = await emmetAPI.getUrl(`/ams/attendance/aggregate?churchGroupId=${churchGroupId}&attendanceDate=${query.attendanceDate}`)
     const body = await response.json();
     if (response.status !== 200) throw Error(body.message);
     return body;
   };
 
-  getLocaleInfo = async () => {
-    const localeId = this.props.location.pathname.split('/')[2];
-    this.setState({ loadingLocaleInfo: true });
-    const response = await emmetAPI.getUrl(`/ams/locale_churches/${localeId}`)
+  getChurchGroupInfo = async () => {
+    const churchGroupId = this.props.location.pathname.split('/')[2];
+    this.setState({ loadingGroupInfo: true });
+    const response = await emmetAPI.getUrl(`/ams/church_groups/${churchGroupId}`)
     const body = await response.json();
     if (response.status !== 200) throw Error(body.message);
     return body;
-  };
-
-
-  handleLocaleSelect = async (localeValue) => {
-    ReactGA.event({
-      category: 'Home',
-      action: 'locale select'
-    });
-    this.setState({
-      selectedLocale: localeValue
-    });
   };
 
   render() {
     const query = qs.parse(this.props.location.search);
     const { attendanceDate } = query;
-    const { result, localeInfo, loadingLocaleInfo, loadingAttendance } = this.state;
-    const loading = (loadingLocaleInfo || loadingAttendance );
+    const { result, churchGroupInfo, loadingGroupInfo, loadingAttendance } = this.state;
+    const loading = (loadingGroupInfo || loadingAttendance );
 
     let modResult = [];
     if (result.length > 0) {
@@ -144,14 +132,14 @@ class AttendanceList extends Component {
               <Col xs={24} sm={24} md={24} lg={12}>
               {(result && result.length === 0) ?
                 <div>
-                  <h3>{`Sorry, but there's no attendance available for ${localeInfo.name} on ${attendanceDate}.`}</h3>
+                  <h3>{`Sorry, but there's no attendance available for ${churchGroupInfo.name} on ${attendanceDate}.`}</h3>
                   <div>
                     <span>Would you like to submit an attendance?</span>
                   </div>
                   <div style={{ display: 'flex', justify: 'center' }} >
                     <NavLink
                       style={{ padding: 10 }}
-                      to={`/locale_church/${localeInfo._id}/attendance?attendanceDate=${attendanceDate}`}
+                      to={`/church_groups/${churchGroupInfo._id}/attendance?attendanceDate=${attendanceDate}`}
                     >
                       <Button type="primary" size="small">
                         <Icon type="check"/>Yes
@@ -159,7 +147,7 @@ class AttendanceList extends Component {
                     </NavLink>
                     <NavLink
                       style={{ padding: 10 }}
-                      to={`/locale_church/${localeInfo._id}/calendar_form`}
+                      to={`/church_groups/${churchGroupInfo._id}/calendar_form`}
                     >
                       <Button type="primary" size="small">
                         <Icon type="cross"/>No
@@ -169,14 +157,14 @@ class AttendanceList extends Component {
                 </div>
               :
                 <div>
-                  <h3>Here's the attendance for {`${localeInfo.name} on ${attendanceDate}:`}</h3>
+                  <h3>Here's the attendance for {`${churchGroupInfo.name} on ${attendanceDate}:`}</h3>
                   <Table pagination={false} columns={columns} dataSource={modResult} />
 
                   <span>Would you like to submit another?</span>
                   <div style={{ display: 'flex', justify: 'center' }} >
                     <NavLink
                       style={{ padding: 10 }}
-                      to={`/locale_church/${localeInfo._id}/attendance?attendanceDate=${attendanceDate}`}
+                      to={`/church_groups/${churchGroupInfo._id}/attendance?attendanceDate=${attendanceDate}`}
                     >
                       <Button type="primary" size="small">
                         <Icon type="check"/>Yes
@@ -184,7 +172,7 @@ class AttendanceList extends Component {
                     </NavLink>
                     <NavLink
                       style={{ padding: 10 }}
-                      to={`/locale_church/${localeInfo._id}/calendar_form`}
+                      to={`/church_groups/${churchGroupInfo._id}/calendar_form`}
                     >
                       <Button type="primary" size="small">
                         <Icon type="cross"/>No
