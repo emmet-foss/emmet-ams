@@ -58,7 +58,7 @@ class AttendanceList extends Component {
 
     this.getChurchGroupInfo()
       .then(res => {
-        this.setState({ churchGroupInfo: res.data, loadingGroupInfo: false })
+        this.setState({ churchGroupInfo: res.churchGroup, loadingGroupInfo: false })
       })
       .catch(err => console.log(err));  
 
@@ -76,7 +76,7 @@ class AttendanceList extends Component {
 
       this.getChurchGroupInfo()
         .then(res => {
-          this.setState({ churchGroupInfo: res.data, loadingGroupInfo: false })
+          this.setState({ churchGroupInfo: res.churchGroup, loadingGroupInfo: false })
         })
         .catch(err => console.log(err));  
   

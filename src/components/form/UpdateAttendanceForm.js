@@ -25,10 +25,10 @@ class UpdateAttendanceForm extends Component {
       members: [],
       membersPresent: [],
       checkedMembers: [],
-      localeInfo: {},
+      churchGroupInfo: {},
       loadingMembersPresent: false,
       loadingMembers: false,
-      loadingLocaleInfo: false,
+      loadingChurchGroupInfo: false,
     };
 	}
 
@@ -53,9 +53,9 @@ class UpdateAttendanceForm extends Component {
       })
       .catch(err => console.log(err));
 
-    this.getLocaleInfo()
+    this.getChurchGroupInfo()
       .then(res => {
-        this.setState({ localeInfo: res.locale, loadingLocaleInfo: false })
+        this.setState({ churchGroupInfo: res.churchGroup, loadingChurchGroupInfo: false })
       })
       .catch(err => console.log(err));  
 
@@ -83,10 +83,10 @@ class UpdateAttendanceForm extends Component {
   getAttendance = async () => {
     this.setState({ loadingMembersPresent: true });
 
-    const localeId = this.props.location.pathname.split('/')[2];
+    const churchGroupId = this.props.location.pathname.split('/')[2];
     const query = qs.parse(this.props.location.search);
     const { attendanceDate, gathering } = query;
-    const response = await emmetAPI.getUrl(`/ams/attendance?localeId=${localeId}&attendanceDate=${attendanceDate}&gathering=${gathering}`);
+    const response = await emmetAPI.getUrl(`/ams/attendance?churchGroupId=${churchGroupId}&attendanceDate=${attendanceDate}&gathering=${gathering}`);
     const body = await response.json();
     if (response.status !== 200) throw Error(body.message);
     return body;
@@ -95,17 +95,17 @@ class UpdateAttendanceForm extends Component {
   getMembers = async () => {
     this.setState({ loadingMembers: true });
 
-    const localeId = this.props.location.pathname.split('/')[2];
-    const response = await emmetAPI.getUrl(`/ams/locale_churches/${localeId}/members`);
+    const churchGroupId = this.props.location.pathname.split('/')[2];
+    const response = await emmetAPI.getUrl(`/ams/church_groups/${churchGroupId}/members`);
     const body = await response.json();
     if (response.status !== 200) throw Error(body.message);
     return body;
   };
 
-  getLocaleInfo = async () => {
-    const localeId = this.props.location.pathname.split('/')[2];
-    this.setState({ loadingLocaleInfo: true });
-    const response = await emmetAPI.getUrl(`/ams/locale_churches/${localeId}`)
+  getChurchGroupInfo = async () => {
+    const churchGroupId = this.props.location.pathname.split('/')[2];
+    this.setState({ loadingChurchGroupInfo: true });
+    const response = await emmetAPI.getUrl(`/ams/church_groups/${churchGroupId}`)
     const body = await response.json();
     if (response.status !== 200) throw Error(body.message);
     return body;
@@ -116,14 +116,14 @@ class UpdateAttendanceForm extends Component {
       category: 'Attendance',
       action: 'confirm attendance'
     });
-    const localeId = this.props.location.pathname.split('/')[2];
+    const churchGroupId = this.props.location.pathname.split('/')[2];
     const query = qs.parse(this.props.location.search);
     const { attendanceDate, gathering } = query
-    this.props.history.push(`/locale_church/${localeId}/confirm_attendance?attendanceDate=${attendanceDate}&gathering=${gathering}`)
+    this.props.history.push(`/church_groups/${churchGroupId}/confirm_attendance?attendanceDate=${attendanceDate}&gathering=${gathering}`)
   };
   
   render() {
-    const { members, localeInfo, loadingLocaleInfo, loadingMembers, loadingMembersPresent, membersPresent } = this.state;
+    const { members, churchGroupInfo, loadingChurchGroupInfo, loadingMembers, loadingMembersPresent, membersPresent } = this.state;
     const { mode } = this.props;
     const memberIds = membersPresent.map((member) => {
       return member._id;
@@ -131,7 +131,7 @@ class UpdateAttendanceForm extends Component {
     const query = qs.parse(this.props.location.search);
     const { attendanceDate, gathering } = query
 
-    const loading = (loadingLocaleInfo || loadingMembers || loadingMembersPresent);
+    const loading = (loadingChurchGroupInfo || loadingMembers || loadingMembersPresent);
     if (loading) {
       return (
         <div className="wrap">
@@ -158,7 +158,7 @@ class UpdateAttendanceForm extends Component {
           <Row type="flex" justify="center">
             <Col xs={24} sm={24} md={24} lg={12}>
               <div>
-                <h4>{`These were the members of ${localeInfo.name} who were present during ${constants.gatherings[gathering]} on ${attendanceDate}:`}</h4>
+                <h4>{`These were the members of ${churchGroupInfo.name} who were present during ${constants.gatherings[gathering]} on ${attendanceDate}:`}</h4>
                 <List
                   itemLayout="horizontal"
                   bordered

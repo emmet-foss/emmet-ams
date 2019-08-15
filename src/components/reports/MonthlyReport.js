@@ -17,7 +17,7 @@ const columns = [
     key: '_id',
     render: _id =>
       <NavLink
-        to={`/locale_church/${_id.localeChurchId}/attendance_details?gathering=${_id.gathering}&attendanceDate=${_id.attendanceDate.substr(0,10)}`}
+        to={`/church_groups/${_id.churchGroupId}/attendance_details?gathering=${_id.gathering}&attendanceDate=${_id.attendanceDate.substr(0,10)}`}
       >
         {_id.attendanceDate.substr(0,10)}
       </NavLink>
@@ -34,7 +34,7 @@ const columns = [
     key: '_id.count',
     render: (_id) =>
       <NavLink
-        to={`/locale_church/${_id.localeChurchId}/attendance_details?gathering=${_id.gathering}&attendanceDate=${_id.attendanceDate.substr(0,10)}`}
+        to={`/church_groups/${_id.churchGroupId}/attendance_details?gathering=${_id.gathering}&attendanceDate=${_id.attendanceDate.substr(0,10)}`}
       >
         {_id.count}
       </NavLink>
@@ -45,9 +45,9 @@ class MonthlyReport extends Component {
   state = {
     result: [],
     period: "",
-    localeInfo: "",
+    churchGroupInfo: "",
     loadingAttendance: false,
-    loadingLocaleInfo: false,
+    loadingChurchGroupInfo: false,
   };
 
   componentDidMount() {
@@ -57,9 +57,9 @@ class MonthlyReport extends Component {
       })
       .catch(err => console.log(err));  
 
-    this.getLocaleInfo()
+    this.getChurchGroupInfo()
       .then(res => {
-        this.setState({ localeInfo: res.locale, loadingLocaleInfo: false })
+        this.setState({ churchGroupInfo: res.churchGroup, loadingChurchGroupInfo: false })
       })
       .catch(err => console.log(err));  
 
@@ -75,9 +75,9 @@ class MonthlyReport extends Component {
         })
         .catch(err => console.log(err));
 
-      this.getLocaleInfo()
+      this.getChurchGroupInfo()
         .then(res => {
-          this.setState({ localeInfo: res.locale, loadingLocaleInfo: false })
+          this.setState({ churchGroupInfo: res.churchGroup, loadingChurchGroupInfo: false })
         })
         .catch(err => console.log(err));  
   
@@ -87,38 +87,36 @@ class MonthlyReport extends Component {
   }
 
   getMonthlyAttendance = async () => {
-    const localeId = this.props.location.pathname.split('/')[2];
+    const churchGroupId = this.props.location.pathname.split('/')[2];
     const query = qs.parse(this.props.location.search);
     this.setState({ loadingAttendance: true })
-    const response = await emmetAPI.getUrl(`/ams/attendance/${localeId}/monthly?period=${query.period}`)
+    const response = await emmetAPI.getUrl(`/ams/attendance/${churchGroupId}/monthly?period=${query.period}`)
     const body = await response.json();
     if (response.status !== 200) throw Error(body.message);
     return body;
   };
 
-  getLocaleInfo = async () => {
-    const localeId = this.props.location.pathname.split('/')[2];
-    this.setState({ loadingLocaleInfo: true });
-    const response = await emmetAPI.getUrl(`/ams/locale_churches/${localeId}`)
+  getChurchGroupInfo = async () => {
+    const churchGroupId = this.props.location.pathname.split('/')[2];
+    this.setState({ loadingChurchGroupInfo: true });
+    const response = await emmetAPI.getUrl(`/ams/church_groups/${churchGroupId}`)
     const body = await response.json();
     if (response.status !== 200) throw Error(body.message);
     return body;
   };
 
 
-  handleLocaleSelect = async (localeValue) => {
+  handleGroupSelect = async (value) => {
     ReactGA.event({
-      category: 'Home',
-      action: 'locale select'
+      category: 'Monthly report',
+      action: 'church group select'
     });
-    this.setState({
-      selectedLocale: localeValue
-    });
+    this.setState({ selectedGroup: value });
   };
 
   render() {
-    const { result, period, localeInfo, loadingLocaleInfo, loadingAttendance } = this.state;
-    const loading = (loadingLocaleInfo || loadingAttendance );
+    const { result, period, churchGroupInfo, loadingChurchGroupInfo, loadingAttendance } = this.state;
+    const loading = (loadingChurchGroupInfo || loadingAttendance );
 
     let modResult = [];
     if (result.length > 0) {
@@ -141,10 +139,10 @@ class MonthlyReport extends Component {
             <Row type="flex" justify="center">
               <Col xs={24} sm={24} md={24} lg={12}>
               {(result && result.length === 0) ?
-                <h2>{`No ${localeInfo.name} attendance available for ${period}.`}</h2>
+                <h2>{`No ${churchGroupInfo.name} attendance available for ${period}.`}</h2>
               :
                 <div>
-                  <h3>{`Here's the attendance for ${localeInfo.name} on ${period}:`}</h3>
+                  <h3>{`Here's the attendance for ${churchGroupInfo.name} on ${period}:`}</h3>
                   <Table pagination={false} columns={columns} dataSource={modResult} />
                 </div>
               }
