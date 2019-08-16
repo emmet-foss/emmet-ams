@@ -40,18 +40,18 @@ class ReportForm extends Component {
   }
 
   getMembers = async () => {
-    const localeId = this.props.location.pathname.split('/')[2];
-    const response = await emmetAPI.getUrl(`/ams/report/${localeId}/members`);
+    const churchGroupId = this.props.location.pathname.split('/')[2];
+    const response = await emmetAPI.getUrl(`/ams/report/${churchGroupId}/members`);
     const body = await response.json();
     if (response.status !== 200) throw Error(body.message);
     return body;
   };
 
   goToReportsPage = async () => {
-    const localeId = this.props.location.pathname.split('/')[2];
+    const churchGroupId = this.props.location.pathname.split('/')[2];
     const query = qs.parse(this.props.location.search);
     const attendanceDate = query.attendanceDate;
-    emmetAPI.fetchUrl(`/ams/reports/${localeId}?attendanceDate=${attendanceDate}`, {
+    emmetAPI.fetchUrl(`/ams/reports/${churchGroupId}?attendanceDate=${attendanceDate}`, {
       method: 'POST',
       credentials: 'include',
       headers: {
@@ -99,7 +99,7 @@ class ReportForm extends Component {
           <Row type="flex" justify="center">
             <Col xs={24} sm={24} md={24} lg={12}>
               {(members && members.length === 0) ?
-                <h2>No members available in this locale.</h2>
+                <h2>No members registired to this locale choir.</h2>
               :
                 <div>
                   <span>Please select the members who were present:</span>

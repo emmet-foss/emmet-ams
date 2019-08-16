@@ -35,7 +35,7 @@ class Home extends Component {
     if (nextProps.location !== this.props.location) {
       this.getGroups()
       .then(res => {
-        this.setState({ churchGroups: res.locales })
+        this.setState({ churchGroups: res.churchGroups })
         let storedGroupId = localStorage.getItem('churchGroupId');
         if (storedGroupId) {
           this.setState({ selectedGroup: storedGroupId })

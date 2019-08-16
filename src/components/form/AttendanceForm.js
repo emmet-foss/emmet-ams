@@ -85,7 +85,7 @@ class AttendanceForm extends Component {
         {(members && members.length === 0) ?
           <Row type="flex" justify="center">
             <Col xs={24} sm={24} md={24} lg={12}>
-                <h2>No members available in this locale.</h2>
+                <h2>No members available in this locale choir.</h2>
             </Col>
           </Row>
         :

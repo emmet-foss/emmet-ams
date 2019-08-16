@@ -22,15 +22,15 @@ class MembersHome extends Component {
   componentDidMount() {
     this.getChurchGroups()
       .then(res => {
-        this.setState({ churchGroups: res.locales })
-        let storedLocaleId = localStorage.getItem('localeId');
+        this.setState({ churchGroups: res.churchGroups })
+        let storedGroupId = localStorage.getItem('churchGroupId');
 
         const query = qs.parse(this.props.location.search);
         const { falseRedirect } = query;
         console.log('falseRedirect', falseRedirect)
-        if (storedLocaleId && !falseRedirect) {
-          this.setState({ selectedGroup: storedLocaleId })
-          //this.props.history.push(`/church_groups/${storedLocaleId}/members`);
+        if (storedGroupId && !falseRedirect) {
+          this.setState({ selectedGroup: storedGroupId })
+          //this.props.history.push(`/church_groups/${storedGroupId}/members`);
         }
       })
       .catch(err => console.log(err));  
@@ -40,10 +40,10 @@ class MembersHome extends Component {
     if (nextProps.location !== this.props.location) {
       this.getChurchGroups()
       .then(res => {
-        this.setState({ churchGroups: res.locales })
-        let storedLocaleId = localStorage.getItem('localeId');
-        if (storedLocaleId) {
-          this.setState({ selectedGroup: storedLocaleId })
+        this.setState({ churchGroups: res.churchGroups })
+        let storedGroupId = localStorage.getItem('churchGroupId');
+        if (storedGroupId) {
+          this.setState({ selectedGroup: storedGroupId })
         }
       })
       .catch(err => console.log(err));
@@ -60,11 +60,9 @@ class MembersHome extends Component {
   handleSelect = async (value) => {
     ReactGA.event({
       category: 'Members Home',
-      action: 'locale select'
+      action: 'select group'
     });
-    this.setState({
-      selectedGroup: value
-    });
+    this.setState({ selectedGroup: value });
   };
 
   render() {
@@ -74,11 +72,11 @@ class MembersHome extends Component {
         <div className="extraContent">
           <Row type="flex" justify="center">
             <Col xs={24} sm={24} md={24} lg={12}>
-              <h3>From which locale would like to see its registered members?</h3>
+              <h3>From which locale choir group would like to see its registered members?</h3>
               <Select
                 showSearch
                 style={{ width: '100%' }}
-                placeholder="Select a locale"
+                placeholder="Select a locale choir"
                 dropdownMatchSelectWidth={false}
                 onChange={this.handleSelect}
                 value={selectedGroup}
