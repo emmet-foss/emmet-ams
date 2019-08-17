@@ -51,7 +51,7 @@ class MembersHome extends Component {
   }
 
   getChurchGroups = async () => {
-    const response = await emmetAPI.getUrl('/ams/church_groups')
+    const response = await emmetAPI.getUrl('/ams/church_groups?ministryName=music%20ministry')
     const body = await response.json();
     if (response.status !== 200) throw Error(body.message);
     return body;

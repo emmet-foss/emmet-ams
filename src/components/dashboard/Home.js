@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { NavLink } from 'react-router-dom';
 import {
   Button, Col, Icon,
   Select, Row,
@@ -60,6 +59,12 @@ class Home extends Component {
     this.setState({ selectedGroup: value });
   };
 
+  handleOnClick = () => {
+    const { selectedGroup } = this.state;
+    localStorage.setItem('churchGroupId', selectedGroup);
+    this.props.history.push(`/church_groups/${selectedGroup}/calendar_form`);
+  }
+
   render() {
     const { churchGroups, selectedGroup } = this.state;
     return (
@@ -89,11 +94,14 @@ class Home extends Component {
           </Row>
           <Row type="flex" justify="center">
             <Col xs={24} sm={24} md={24} lg={12}>
-              <NavLink to={`/church_groups/${selectedGroup}/calendar_form`}>
-                <Button block type="primary" disabled={!selectedGroup}>
-                  Next<Icon type="right"/>
-                </Button>
-              </NavLink>
+              <Button
+                block
+                type="primary"
+                disabled={!selectedGroup}
+                onClick={this.handleOnClick}
+              >
+                Next<Icon type="right"/>
+              </Button>
             </Col>
           </Row>
         </div>
