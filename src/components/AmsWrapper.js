@@ -60,7 +60,7 @@ class AmsWrapper extends Component {
   }
 
   render() {
-    let localeId = localStorage.getItem('localeId');
+    let churchGroupId = localStorage.getItem('churchGroupId');
     return (
       <Layout style={{ minHeight: '100vh' }}>
         <Layout>
@@ -127,12 +127,12 @@ class AmsWrapper extends Component {
                 <div style={{ padding: 24, background: '#fff', minHeight: 320 }}>
                   <Route exact path="/" component={withTracker(Home)} />
                   <Route exact path="/reports" component={withTracker(ReportsHome)} />
-                  <Route exact path="/reports/:localeId/weekly" component={withTracker(Reports.WeeklyReport)} />
-                  <Route exact path="/reports/:localeId/monthly" component={withTracker(MonthlyReport)} />
-                  <Route exact path="/locale_church/:localeId/calendar" component={withTracker(AttendanceCalendar)} />
-                  <Route exact path="/locale_church/:localeId/calendar_form" component={withTracker(CalendarForm)} />
-                  <Route exact path="/locale_church/:localeId/attendance_list" component={withTracker(AttendanceList)} />
-                  <Route exact path="/locale_church/:localeId/attendance_details"
+                  <Route exact path="/reports/:groupId/weekly" component={withTracker(Reports.WeeklyReport)} />
+                  <Route exact path="/reports/:groupId/monthly" component={withTracker(MonthlyReport)} />
+                  <Route exact path="/church_groups/:groupId/calendar" component={withTracker(AttendanceCalendar)} />
+                  <Route exact path="/church_groups/:groupId/calendar_form" component={withTracker(CalendarForm)} />
+                  <Route exact path="/church_groups/:groupId/attendance_list" component={withTracker(AttendanceList)} />
+                  <Route exact path="/church_groups/:groupId/attendance_details"
                     render={(props) =>
                       <UpdateAttendanceForm
                         {...props}
@@ -143,7 +143,7 @@ class AmsWrapper extends Component {
                       />
                     }
                   />
-                  <Route exact path="/locale_church/:localeId/update_attendance"
+                  <Route exact path="/church_groups/:groupId/update_attendance"
                     render={(props) =>
                       <UpdateAttendanceForm
                         {...props}
@@ -153,7 +153,7 @@ class AmsWrapper extends Component {
                       />
                     }
                   />
-                  <Route exact path="/locale_church/:localeId/attendance"
+                  <Route exact path="/church_groups/:groupId/attendance"
                     render={(props) =>
                       <AttendanceForm
                         {...props}
@@ -163,7 +163,7 @@ class AmsWrapper extends Component {
                       />
                     }
                   />
-                  <Route exact path="/locale_church/:localeId/confirm_attendance"
+                  <Route exact path="/church_groups/:groupId/confirm_attendance"
                     render={(props) => 
                       <AttendanceConfirm {...props}
                         checkedMembers={this.state.checkedMembers}
@@ -172,8 +172,8 @@ class AmsWrapper extends Component {
                     }
                   />
                   <Route exact path="/members" component={withTracker(MembersHome)} />
-                  <Route exact path="/locale_church/:localeId/members" component={withTracker(MembersList)} />
-                  <Route exact path="/locale_church/:localeId/members/new" component={withTracker(RegisterMember)} />
+                  <Route exact path="/church_groups/:groupId/members" component={withTracker(MembersList)} />
+                  <Route exact path="/church_groups/:groupId/members/new" component={withTracker(RegisterMember)} />
                 </div>
               </Col>
             </Row>
@@ -194,10 +194,10 @@ class AmsWrapper extends Component {
                     </NavLink>
                   </Menu.Item>
                   <Menu.Item
-                    key={`/locale_church/${localeId}/calendar`}
+                    key={`/church_groups/${churchGroupId}/calendar`}
                     style={{ flexGrow: 1, display: 'flex', justifyContent: 'center' }}
-                    disabled={!localeId}>
-                    <NavLink to={`/locale_church/${localeId}/calendar_form`}>
+                    disabled={!churchGroupId}>
+                    <NavLink to={`/church_groups/${churchGroupId}/calendar_form`}>
                       <Icon type="calendar" />
                     </NavLink>
                   </Menu.Item>

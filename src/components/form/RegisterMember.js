@@ -13,8 +13,8 @@ const Option = Select.Option;
 class RegisterMember extends Component {
   state = {
     response: [],
-    churchLocales: [],
-    selectedLocale: '',
+    churchGroups: [],
+    selectedGroup: '',
     name: '',
     memberType: '',
     voiceDesignation: '',
@@ -27,12 +27,12 @@ class RegisterMember extends Component {
   };
 
   componentDidMount() {
-    this.getChurchLocales()
+    this.getChurchGroups()
       .then(res => {
-        this.setState({ churchLocales: res.locales })
-        let storedLocaleId = localStorage.getItem('localeId');
-        if (storedLocaleId) {
-          this.setState({ selectedLocale: storedLocaleId })
+        this.setState({ churchGroups: res.churchGroups })
+        let storedGroupId = localStorage.getItem('churchGroupId');
+        if (storedGroupId) {
+          this.setState({ selectedGroup: storedGroupId })
         }
       })
       .catch(err => console.log(err));  
@@ -40,35 +40,33 @@ class RegisterMember extends Component {
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.location !== this.props.location) {
-      this.getChurchLocales()
+      this.getChurchGroups()
       .then(res => {
-        this.setState({ churchLocales: res.locales })
-        let storedLocaleId = localStorage.getItem('localeId');
-        if (storedLocaleId) {
-          this.setState({ selectedLocale: storedLocaleId })
+        this.setState({ churchGroups: res.churchGroups })
+        let storedGroupId = localStorage.getItem('churchGroupId');
+        if (storedGroupId) {
+          this.setState({ selectedGroup: storedGroupId })
         }
       })
       .catch(err => console.log(err));
     }
   }
 
-  getChurchLocales = async () => {
-    const response = await emmetAPI.getUrl('/ams/locale_churches')
+  getChurchGroups = async () => {
+    const response = await emmetAPI.getUrl('/ams/church_groups?ministryName=music%20ministry')
     const body = await response.json();
     if (response.status !== 200) throw Error(body.message);
     return body;
   };
 
-  handleLocaleSelect = async (localeValue) => {
-    this.setState({
-      selectedLocale: localeValue
-    });
+  handleLocaleSelect = async (value) => {
+    this.setState({ selectedGroup: value });
   };
 
   handleSubmit = async e => {
     e.preventDefault();
-    const { name, voiceDesignation, isUnderProbationary, isYouth, isWorker, selectedLocale } = this.state;
-    const response = await emmetAPI.fetchUrl(`/ams/locale_churches/${selectedLocale}/music_ministry/members`, {
+    const { name, voiceDesignation, isUnderProbationary, isYouth, isWorker, selectedGroup } = this.state;
+    const response = await emmetAPI.fetchUrl(`/ams/church_groups/${selectedGroup}/music_ministry/members`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -109,10 +107,7 @@ class RegisterMember extends Component {
       },
     };
 
-    const {
-      churchLocales,
-      selectedLocale,
-    } = this.state;
+    const { churchGroups, selectedGroup } = this.state;
 
     return (
       <div className="wrap">
@@ -120,16 +115,16 @@ class RegisterMember extends Component {
           <Row type="flex" justify="center">
             <Col xs={24} sm={24} md={24} lg={12}>
               <Form {...formItemLayout}>
-                <Form.Item label="Locale">
+                <Form.Item label="Locale Choir">
                   <Select
                       showSearch
-                      placeholder="Select a locale"
+                      placeholder="Select a choir group"
                       dropdownMatchSelectWidth={false}
-                      onChange={value => this.setState({ selectedLocale: value })}
-                      value={selectedLocale}
+                      onChange={value => this.setState({ selectedGroup: value })}
+                      value={selectedGroup}
                     >
-                      {churchLocales && churchLocales.map(locale => {
-                        return <Option key={locale._id} value={locale._id}>{locale.name}</Option>
+                      {churchGroups && churchGroups.map(item => {
+                        return <Option key={item._id} value={item._id}>{item.name}</Option>
                       })}
                   </Select>
                 </Form.Item>

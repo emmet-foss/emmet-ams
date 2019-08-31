@@ -28,18 +28,18 @@ class AttendanceForm extends Component {
     ReactGA.pageview(window.location.pathname + window.location.search)
   }
 
-  handleSubmitAttendance = async () => {
+  handleSubmit = async () => {
     ReactGA.event({
       category: 'Attendance',
       action: 'submit attendance'
     });
 
     this.setState({ loading: true })
-    const localeId = this.props.location.pathname.split('/')[2];
+    const groupId = this.props.location.pathname.split('/')[2];
     const query = qs.parse(this.props.location.search);
     const { attendanceDate, gathering } = query;
     const memberIds = this.props.checkedMembers.map(item => item.memberId)
-    emmetAPI.fetchUrl(`/ams/attendance/${localeId}?attendanceDate=${attendanceDate}&gathering=${gathering}`, {
+    emmetAPI.fetchUrl(`/ams/attendance/${groupId}?attendanceDate=${attendanceDate}&gathering=${gathering}`, {
       method: 'POST',
       credentials: 'include',
       headers: {
@@ -54,7 +54,7 @@ class AttendanceForm extends Component {
       if (res.status === 200) {
         this.props.clearMembers();
         message.success('Attendance successfully submitted.');
-        this.props.history.push(`/locale_church/${localeId}/attendance_list?attendanceDate=${attendanceDate}`)
+        this.props.history.push(`/church_groups/${groupId}/attendance_list?attendanceDate=${attendanceDate}`)
       } else {
         const error = new Error(res.error);
         throw error;
@@ -100,7 +100,7 @@ class AttendanceForm extends Component {
                 block
                 type="primary"
                 loading={this.state.loading}
-                onClick={this.handleSubmitAttendance}
+                onClick={this.handleSubmit}
               >
                 Submit
               </Button>

@@ -31,9 +31,9 @@ const columns = [
 class MembersList extends Component {
   state = {
     members: [],
-    localeInfo: {},
+    groupInfo: {},
     loadingMembers: false,
-    loadingLocaleInfo: false,
+    loadingGroupInfo: false,
   };
 
   componentDidMount() {
@@ -41,9 +41,9 @@ class MembersList extends Component {
       .then(res => this.setState({ members: res.members, loadingMembers: false }))
       .catch(err => console.log(err));
 
-      this.getLocaleInfo()
+      this.getGroupInfo()
         .then(res => {
-          this.setState({ localeInfo: res.locale, loadingLocaleInfo: false })
+          this.setState({ groupInfo: res.churchGroup, loadingGroupInfo: false })
         })
         .catch(err => console.log(err));  
     }
@@ -54,9 +54,9 @@ class MembersList extends Component {
         .then(res => this.setState({ members: res.members, loadingMembers: false }))
         .catch(err => console.log(err));
 
-        this.getLocaleInfo()
+        this.getGroupInfo()
         .then(res => {
-          this.setState({ localeInfo: res.locale, loadingLocaleInfo: false })
+          this.setState({ groupInfo: res.churchGroup, loadingGroupInfo: false })
         })
         .catch(err => console.log(err));  
     }
@@ -64,25 +64,25 @@ class MembersList extends Component {
 
   getMembers = async () => {
     this.setState({ loadingMembers: true });
-    const localeId = this.props.location.pathname.split('/')[2];
-    const response = await emmetAPI.getUrl(`/ams/locale_churches/${localeId}/members`);
+    const churchGroupId = this.props.location.pathname.split('/')[2];
+    const response = await emmetAPI.getUrl(`/ams/church_groups/${churchGroupId}/members`);
     const body = await response.json();
     if (response.status !== 200) throw Error(body.message);
     return body;
   };
 
-  getLocaleInfo = async () => {
-    const localeId = this.props.location.pathname.split('/')[2];
-    this.setState({ loadingLocaleInfo: true });
-    const response = await emmetAPI.getUrl(`/ams/locale_churches/${localeId}`)
+  getGroupInfo = async () => {
+    const churchGroupId = this.props.location.pathname.split('/')[2];
+    this.setState({ loadingGroupInfo: true });
+    const response = await emmetAPI.getUrl(`/ams/church_groups/${churchGroupId}`)
     const body = await response.json();
     if (response.status !== 200) throw Error(body.message);
     return body;
   };
 
   render() {
-    const { members, localeInfo, loadingMembers, loadingLocaleInfo } = this.state;
-    const loading = (loadingMembers || loadingLocaleInfo);
+    const { members, groupInfo, loadingMembers, loadingGroupInfo } = this.state;
+    const loading = (loadingMembers || loadingGroupInfo);
 
     let modMembers = [];
     if (members.length > 0) {
@@ -106,14 +106,14 @@ class MembersList extends Component {
               <Col xs={24} sm={24} md={24} lg={12}>
               {(members && members.length === 0) ?
                 <div>
-                  <h3>{`Sorry, but there are no members registered the locale of ${localeInfo.name}.`}</h3>
+                  <h3>{`Sorry, but there are no members registered to the group ${groupInfo.name}.`}</h3>
                   <div>
                     <span>Would you like to register a member?</span>
                   </div>
                   <div style={{ display: 'flex', justify: 'center' }} >
                     <NavLink
                       style={{ padding: 10 }}
-                      to={`/locale_church/${localeInfo._id}/members/new`}
+                      to={`/church_groups/${groupInfo._id}/members/new`}
                     >
                       <Button type="primary" size="small">
                         <Icon type="check"/>Yes
@@ -131,14 +131,14 @@ class MembersList extends Component {
                 </div>
               :
                 <div>
-                  <h3>Here are the members registered in the locale of {`${localeInfo.name}:`}</h3>
+                  <h3>Here are the members registered in the group {`${groupInfo.name}:`}</h3>
                   <Table pagination={false} columns={columns} dataSource={modMembers} />
 
                   <span>Would you like to register another member?</span>
                   <div style={{ display: 'flex', justify: 'center' }} >
                     <NavLink
                       style={{ padding: 10 }}
-                      to={`/locale_church/${localeInfo._id}/members/new`}
+                      to={`/church_groups/${groupInfo._id}/members/new`}
                     >
                       <Button type="primary" size="small">
                         <Icon type="check"/>Yes
