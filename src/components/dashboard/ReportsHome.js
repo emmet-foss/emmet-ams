@@ -14,18 +14,18 @@ const { MonthPicker, RangePicker, WeekPicker } = DatePicker;
 class ReportsHome extends Component {
   state = {
     members: [],
-    selectedLocale: '',
+    selectedGroup: '',
     selectedReport: 'monthly',
     period: '',
   };
 
   componentDidMount() {
-    this.getChurchLocales()
+    this.getChurchGroups()
       .then(res => {
-        this.setState({ churchLocales: res.locales })
-        let storedLocaleId = localStorage.getItem('localeId');
-        if (storedLocaleId) {
-          this.setState({ selectedLocale: storedLocaleId })
+        this.setState({ churchGroups: res.churchGroups })
+        let storedId = localStorage.getItem('churchGroupId');
+        if (storedId) {
+          this.setState({ selectedGroup: storedId })
         }
       })
       .catch(err => console.log(err));  
@@ -33,42 +33,40 @@ class ReportsHome extends Component {
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.location !== this.props.location) {
-      this.getChurchLocales()
+      this.getChurchGroups()
       .then(res => {
-        this.setState({ churchLocales: res.locales })
-        let storedLocaleId = localStorage.getItem('localeId');
-        if (storedLocaleId) {
-          this.setState({ selectedLocale: storedLocaleId })
+        this.setState({ churchGroups: res.churchGroups })
+        let storedId = localStorage.getItem('churchGroupId');
+        if (storedId) {
+          this.setState({ selectedGroup: storedId })
         }
       })
       .catch(err => console.log(err));
     }
   }
 
-  getChurchLocales = async () => {
-    const response = await emmetAPI.getUrl('/ams/locale_churches')
+  getChurchGroups = async () => {
+    const response = await emmetAPI.getUrl('/ams/church_groups?ministryName=music%20ministry')
     const body = await response.json();
     if (response.status !== 200) throw Error(body.message);
     return body;
   };
 
-  getMembers = async (localeId) => {
-    const response = await emmetAPI.getUrl(`/ams/report/${localeId}/members`);
+  getMembers = async (id) => {
+    const response = await emmetAPI.getUrl(`/ams/report/${id}/members`);
     const body = await response.json();
     if (response.status !== 200) throw Error(body.message);
     return body;
   };
 
-  handleLocaleSelect = async (localeValue) => {
+  handleSelect = async (value) => {
     ReactGA.event({
       category: 'Report',
-      action: 'locale select'
+      action: 'church group select'
     });
-    this.setState({
-      selectedLocale: localeValue
-    });
+    this.setState({ selectedGroup: value });
 
-    this.getMembers(localeValue)
+    this.getMembers(value)
       .then(res => this.setState({ members: res.members }))
       .catch(err => console.log(err));
   };
@@ -101,8 +99,8 @@ class ReportsHome extends Component {
     };
 
     const {
-      churchLocales,
-      selectedLocale,
+      churchGroups,
+      selectedGroup,
       selectedReport,
       period,
     } = this.state;
@@ -118,16 +116,16 @@ class ReportsHome extends Component {
           <Row type="flex" justify="center">
             <Col xs={24} sm={24} md={24} lg={12}>
               <Form {...formItemLayout}>
-                <Form.Item label="Locale">
+                <Form.Item label="Locale Choir:">
                   <Select
                       showSearch
-                      placeholder="Select a locale"
+                      placeholder="Select a locale choir"
                       dropdownMatchSelectWidth={false}
-                      onChange={this.handleLocaleSelect}
-                      value={selectedLocale}
+                      onChange={this.handleSelect}
+                      value={selectedGroup}
                     >
-                      {churchLocales && churchLocales.map(locale => {
-                        return <Option key={locale._id} value={locale._id}>{locale.name}</Option>
+                      {churchGroups && churchGroups.map(item => {
+                        return <Option key={item._id} value={item._id}>{item.name}</Option>
                       })}
                   </Select>
                 </Form.Item>
@@ -172,7 +170,7 @@ class ReportsHome extends Component {
           }
           <Row type="flex" justify="center">
             <Col xs={24} sm={24} md={24} lg={12}>
-              <NavLink to={`/reports/${selectedLocale}/${selectedReport}?period=${period}`}>
+              <NavLink to={`/reports/${selectedGroup}/${selectedReport}?period=${period}`}>
                 <Button
                   block
                   type="primary"

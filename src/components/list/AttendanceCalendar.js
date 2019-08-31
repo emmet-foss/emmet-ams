@@ -28,8 +28,8 @@ class AttendanceCalendar extends Component {
   }
 
   componentDidMount() {
-    const localeId = this.props.location.pathname.split('/')[2];
-    localStorage.setItem('localeId', localeId);
+    const churchGroupId = this.props.location.pathname.split('/')[2];
+    localStorage.setItem('churchGroupId', churchGroupId);
   }
 
   goToAttendanceDate = async (attendanceDate) => {
@@ -37,9 +37,9 @@ class AttendanceCalendar extends Component {
       category: 'AttendanceCalendar',
       action: 'go to attendance date'
     });
-    const localeId = this.props.location.pathname.split('/')[2];
+    const churchGroupId = this.props.location.pathname.split('/')[2];
     const { selectedGathering } = this.state;
-    this.props.history.push(`/locale_church/${localeId}/attendance?attendanceDate=${attendanceDate.format("YYYY-MM-DD")}&gathering=${selectedGathering}`)
+    this.props.history.push(`/church_groups/${churchGroupId}/attendance?attendanceDate=${attendanceDate.format("YYYY-MM-DD")}&gathering=${selectedGathering}`)
   };
 
   handleSelectGathering = (value) => {
