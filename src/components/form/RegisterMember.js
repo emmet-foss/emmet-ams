@@ -66,7 +66,7 @@ class RegisterMember extends Component {
   handleSubmit = async e => {
     e.preventDefault();
     const { name, voiceDesignation, isUnderProbationary, isYouth, isWorker, selectedGroup } = this.state;
-    const response = await emmetAPI.fetchUrl(`/ams/church_groups/${selectedGroup}/music_ministry/members`, {
+    const response = await emmetAPI.fetchUrl(`/ams/church_groups/${selectedGroup}/members`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
