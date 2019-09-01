@@ -65,18 +65,19 @@ class RegisterMember extends Component {
 
   handleSubmit = async e => {
     e.preventDefault();
-    const { name, voiceDesignation, isUnderProbationary, isYouth, isWorker, selectedGroup } = this.state;
+    const { name, churchId, voiceDesignation, isUnderProbationary, isYouth, isWorker, selectedGroup } = this.state;
     const response = await emmetAPI.fetchUrl(`/ams/church_groups/${selectedGroup}/members`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({ 
-        name: name,
-        voiceDesignation: voiceDesignation,
-        isUnderProbationary: isUnderProbationary,
-        isYouth: isYouth,
-        isWorker: isWorker,
+        name,
+        churchId,
+        voiceDesignation,
+        isUnderProbationary,
+        isYouth,
+        isWorker,
       }),
     });
     const body = await response.text();
@@ -140,6 +141,14 @@ class RegisterMember extends Component {
                   <Input
                     value={this.state.name}
                     onChange={e => this.setState({ name: e.target.value })}
+                  />
+                </Form.Item>
+                <Form.Item
+                  label="Church Id:"
+                >
+                  <Input
+                    value={this.state.churchId}
+                    onChange={e => this.setState({ churchId: e.target.value })}
                   />
                 </Form.Item>
                 <Form.Item
