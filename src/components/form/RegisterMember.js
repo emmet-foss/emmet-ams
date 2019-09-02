@@ -29,7 +29,7 @@ class RegisterMember extends Component {
   componentDidMount() {
     this.getChurchGroups()
       .then(res => {
-        this.setState({ churchGroups: res.churchGroups })
+        this.setState({ churchGroups: res.church_groups })
         let storedGroupId = localStorage.getItem('churchGroupId');
         if (storedGroupId) {
           this.setState({ selectedGroup: storedGroupId })
@@ -42,7 +42,7 @@ class RegisterMember extends Component {
     if (nextProps.location !== this.props.location) {
       this.getChurchGroups()
       .then(res => {
-        this.setState({ churchGroups: res.churchGroups })
+        this.setState({ churchGroups: res.church_groups })
         let storedGroupId = localStorage.getItem('churchGroupId');
         if (storedGroupId) {
           this.setState({ selectedGroup: storedGroupId })
