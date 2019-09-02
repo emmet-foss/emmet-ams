@@ -21,7 +21,7 @@ class Home extends Component {
   componentDidMount() {
     this.getGroups()
       .then(res => {
-        this.setState({ churchGroups: res.churchGroups })
+        this.setState({ churchGroups: res.church_groups })
         let storedGroupId = localStorage.getItem('churchGroupId');
         if (storedGroupId) {
           this.setState({ selectedGroup: storedGroupId })
@@ -34,7 +34,7 @@ class Home extends Component {
     if (nextProps.location !== this.props.location) {
       this.getGroups()
       .then(res => {
-        this.setState({ churchGroups: res.churchGroups })
+        this.setState({ churchGroups: res.church_groups })
         let storedGroupId = localStorage.getItem('churchGroupId');
         if (storedGroupId) {
           this.setState({ selectedGroup: storedGroupId })

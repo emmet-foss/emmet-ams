@@ -22,7 +22,7 @@ class ReportsHome extends Component {
   componentDidMount() {
     this.getChurchGroups()
       .then(res => {
-        this.setState({ churchGroups: res.churchGroups })
+        this.setState({ churchGroups: res.church_groups })
         let storedId = localStorage.getItem('churchGroupId');
         if (storedId) {
           this.setState({ selectedGroup: storedId })
@@ -35,7 +35,7 @@ class ReportsHome extends Component {
     if (nextProps.location !== this.props.location) {
       this.getChurchGroups()
       .then(res => {
-        this.setState({ churchGroups: res.churchGroups })
+        this.setState({ churchGroups: res.church_groups })
         let storedId = localStorage.getItem('churchGroupId');
         if (storedId) {
           this.setState({ selectedGroup: storedId })
