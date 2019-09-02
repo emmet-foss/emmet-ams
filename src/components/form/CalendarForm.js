@@ -18,12 +18,12 @@ class CalendarForm extends Component {
   };
 
   constructor(props) {
-		super(props);
-		this.state = {
+    super(props);
+    this.state = {
       attendanceDates: [],
       loading: false,
     };
-	}
+  }
 
   componentDidMount() {
     this.getAttendanceDates()
