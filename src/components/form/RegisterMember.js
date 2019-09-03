@@ -168,6 +168,7 @@ class RegisterMember extends Component {
                       <Col span={24}>
                         <Checkbox
                           onChange={e => this.setState({ isUnderProbationary: e.target.checked })}
+                          value="1"
                         >Under Probationary</Checkbox>
                       </Col>
                     </Row>
@@ -175,6 +176,7 @@ class RegisterMember extends Component {
                       <Col span={24}>
                         <Checkbox
                           onChange={e => this.setState({ isYouth: e.target.checked })}
+                          value="2"
                         >Youth</Checkbox>
                       </Col>
                     </Row>
@@ -182,6 +184,7 @@ class RegisterMember extends Component {
                       <Col span={24}>
                         <Checkbox
                           onChange={e => this.setState({ isWorker: e.target.checked })}
+                          value="3"
                         >Worker</Checkbox>
                       </Col>
                     </Row>
