@@ -30,10 +30,8 @@ class RegisterMember extends Component {
     this.getChurchGroups()
       .then(res => {
         this.setState({ churchGroups: res.church_groups })
-        let storedGroupId = localStorage.getItem('churchGroupId');
-        if (storedGroupId) {
-          this.setState({ selectedGroup: storedGroupId })
-        }
+        const churchGroupId = this.props.location.pathname.split('/')[2];
+        this.setState({ selectedGroup: churchGroupId })
       })
       .catch(err => console.log(err));  
   }
@@ -43,10 +41,8 @@ class RegisterMember extends Component {
       this.getChurchGroups()
       .then(res => {
         this.setState({ churchGroups: res.church_groups })
-        let storedGroupId = localStorage.getItem('churchGroupId');
-        if (storedGroupId) {
-          this.setState({ selectedGroup: storedGroupId })
-        }
+        const churchGroupId = this.props.location.pathname.split('/')[2];
+        this.setState({ selectedGroup: churchGroupId })
       })
       .catch(err => console.log(err));
     }
@@ -167,15 +163,29 @@ class RegisterMember extends Component {
                 <Form.Item
                   label="Other Statuses:"
                 >
-                  <Checkbox
-                    onChange={e => this.setState({ isUnderProbationary: e.target.checked })}
-                  >Under Probationary</Checkbox>
-                  <Checkbox
-                    onChange={e => this.setState({ isYouth: e.target.checked })}
-                  >Youth</Checkbox>
-                  <Checkbox
-                    onChange={e => this.setState({ isWorker: e.target.checked })}
-                  >Worker</Checkbox>
+                  <Checkbox.Group style={{ width: '100%' }}>
+                    <Row>
+                      <Col span={24}>
+                        <Checkbox
+                          onChange={e => this.setState({ isUnderProbationary: e.target.checked })}
+                        >Under Probationary</Checkbox>
+                      </Col>
+                    </Row>
+                    <Row>
+                      <Col span={24}>
+                        <Checkbox
+                          onChange={e => this.setState({ isYouth: e.target.checked })}
+                        >Youth</Checkbox>
+                      </Col>
+                    </Row>
+                    <Row>
+                      <Col span={24}>
+                        <Checkbox
+                          onChange={e => this.setState({ isWorker: e.target.checked })}
+                        >Worker</Checkbox>
+                      </Col>
+                    </Row>
+                  </Checkbox.Group>
                 </Form.Item>
                 <Form.Item {...tailFormItemLayout}>
                   <Button block type="primary" htmlType="submit">Register</Button>
